@@ -453,8 +453,8 @@ Contributions are welcome! Here's how:
 
 ### Bug Reports
 1. Open an issue on GitHub
-2. Include KOReader version
-3. Include error message (if any)
+2. Include KOReader version and e-Reader
+3. Include error message (crash.log)
 4. Describe steps to reproduce
 
 ### Feature Requests
