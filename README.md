@@ -169,6 +169,16 @@ Menu → X-Ray → Clear Cache
 
 ---
 
+![photo_2025-10-30_13-38-30](https://github.com/user-attachments/assets/48e4b012-f0c1-43b0-9380-c5ca69c8cb6d)
+![photo_2025-10-30_13-38-28](https://github.com/user-attachments/assets/60f292d4-acc3-42ef-8ae0-9a501719dd76)
+![photo_2025-10-30_13-38-25](https://github.com/user-attachments/assets/2290087a-81e4-404b-bf6a-7fd8aa6f55bd)
+![photo_2025-10-30_13-38-37](https://github.com/user-attachments/assets/0b451a75-966a-432d-93ff-83649f965c40)
+![photo_2025-10-30_13-38-42](https://github.com/user-attachments/assets/8bf8a6cd-aa83-4f20-a096-924dd4ccd095)
+![photo_2025-10-30_13-38-40](https://github.com/user-attachments/assets/c7924bf7-6775-46bb-ab04-c96cc1712b75)
+![photo_2025-10-30_13-38-35](https://github.com/user-attachments/assets/345e805f-f34d-4051-8c0a-22c18a1f9825)
+![photo_2025-10-30_13-38-33](https://github.com/user-attachments/assets/8c8aabd1-e8da-4690-a55d-d20fafc11484)
+
+
 ## 🛠️ Configuration
 
 ### config.lua (Optional)
