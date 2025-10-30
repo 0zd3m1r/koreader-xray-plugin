@@ -1244,6 +1244,7 @@ function XRayPlugin:showCharacterNotes()
     local notes_count = 0
     
     for _, char in ipairs(self.characters) do
+        local char_name = char.name or self.loc:t("unknown_character")
         local note = self.notes_manager:getNote(self.character_notes, char.name)
         if note then
             notes_count = notes_count + 1
@@ -1254,7 +1255,7 @@ function XRayPlugin:showCharacterNotes()
             end
             
             table.insert(items, {
-                text = "📝 " .. char.name .. "\n   " .. note_preview,
+                text = "📝 " .. char_name .. "\n   " .. note_preview,
                 callback = function()
                     self:showCharacterWithNote(char, note)
                 end,
@@ -1270,10 +1271,11 @@ function XRayPlugin:showCharacterNotes()
     end
     
     for _, char in ipairs(self.characters) do
+        local char_name = char.name or self.loc:t("unknown_character")
         local note = self.notes_manager:getNote(self.character_notes, char.name)
         if not note then
             table.insert(items, {
-                text = "➕ " .. char.name .. " (" .. self.loc:t("add_note") .. ")",
+                text = "➕ " .. char_name .. " (" .. self.loc:t("add_note") .. ")",
                 callback = function()
                     self:addCharacterNote(char)
                 end,
