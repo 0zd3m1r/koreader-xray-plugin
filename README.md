@@ -31,7 +31,7 @@ All data is **cached locally** for offline use and works **without internet** af
 - **Google Gemini 2.5 Pro** (optional, more detailed)
 - **ChatGPT (GPT-3.5 Turbo)** (paid, OpenAI)
 - Smart JSON parsing with error recovery
-- Language-aware prompts (Turkish/English)
+- Language-aware prompts (Turkish/English/Português etc.)
 
 ### 👥 Character Management
 
@@ -57,7 +57,7 @@ All data is **cached locally** for offline use and works **without internet** af
 - **Offline usage**: Internet only needed for initial fetch
 - **Per-book storage**: Each book has its own cache
 - **Auto-load**: Cache loads automatically when opening a book
-- **🌍 Multi-Language Support**: Turkish and English interface + AI prompts
+- **🌍 Multi-Language Support**: Interface + AI prompts
 
 ---
 
