@@ -3,18 +3,19 @@
 return {
     -- Google Gemini API Key
     -- API key almak için: https://makersuite.google.com/app/apikey
-    gemini_api_key = "AIzaSy*****",  -- Write API key: "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    gemini_api_key = "AIzaSy----",  -- Buraya API keyinizi yazın: "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     
-    -- Gemini Model
-    -- "gemini-2.5-flash" (free, fast)
-    -- "gemini-2.5-pro" (Gemini Pro account)
+    -- Gemini Model Seçimi
+    -- "gemini-2.5-flash"
+    -- "gemini-2.5-pro"
+    -- "gemini-3.0-preview"
     gemini_model = "gemini-2.5-flash",
     
     -- ChatGPT API Key 
     -- API key almak için: https://platform.openai.com/api-keys
-    chatgpt_api_key = "",  -- Write API key: "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    chatgpt_api_key = "sk-XXXX",  -- Buraya API keyinizi yazın: "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     
-    -- Default AI Provider ("gemini" or "chatgpt")
+    -- Varsayılan AI Sağlayıcı
     default_provider = "gemini",
     
     -- Ayarlar
