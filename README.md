@@ -155,7 +155,7 @@ Menu → X-Ray → My Character Notes
 ```
 Menu → X-Ray → Language / Dil
 ```
-- Switch between Turkish and English
+- Switch between languages
 - Applies immediately (menu refreshes on next open)
 - AI will fetch data in selected language
 
