@@ -1,0 +1,782 @@
+# Turkish translation for X-Ray Plugin
+# Copyright (C) 2025
+# This file is distributed under the same license as the X-Ray package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: X-Ray 1.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-17 12:00+0000\n"
+"PO-Revision-Date: 2025-11-17 12:00+0000\n"
+"Last-Translator: 0zd3m1r\n"
+"Language-Team: Turkish\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# ==============================
+# MENU ITEMS
+# ==============================
+
+msgid "menu_xray"
+msgstr "X-Ray"
+
+msgid "menu_characters"
+msgstr "Karakterler"
+
+msgid "menu_chapter_characters"
+msgstr "Bu Bölümde Hangi Karakterler Var?"
+
+msgid "menu_character_notes"
+msgstr "Karakter Notlarım"
+
+msgid "menu_timeline"
+msgstr "Zaman Çizelgesi"
+
+msgid "menu_historical_figures"
+msgstr "Tarihi Kişilikler"
+
+msgid "menu_locations"
+msgstr "Mekanlar"
+
+msgid "menu_author_info"
+msgstr "Yazar Bilgisi"
+
+msgid "menu_summary"
+msgstr "Özet"
+
+msgid "menu_themes"
+msgstr "Temalar"
+
+msgid "menu_fetch_ai"
+msgstr "AI ile Bilgi Çek"
+
+msgid "menu_ai_settings"
+msgstr "AI Ayarları"
+
+msgid "menu_clear_cache"
+msgstr "Cache Temizle"
+
+msgid "menu_xray_mode"
+msgstr "X-Ray Modu:"
+
+msgid "menu_language"
+msgstr "Dil / Language"
+
+msgid "menu_about"
+msgstr "Hakkında"
+
+# ==============================
+# AI SETTINGS & PROVIDERS
+# ==============================
+
+msgid "menu_gemini_key"
+msgstr "Google Gemini API Key"
+
+msgid "menu_gemini_model"
+msgstr "Gemini Model Seç"
+
+msgid "menu_chatgpt_key"
+msgstr "ChatGPT API Key"
+
+msgid "menu_provider_select"
+msgstr "AI Sağlayıcı Seç"
+
+msgid "gemini_model_title"
+msgstr "Gemini Model Seç"
+
+msgid "gemini_model_flash"
+msgstr "En Hızlı + Ücretsiz"
+
+msgid "gemini_model_pro"
+msgstr "Dengeli + Güçlü"
+
+msgid "gemini_model_flash_15"
+msgstr "Hızlı + Verimli"
+
+msgid "unknown_model"
+msgstr "Model bilinmiyor."
+
+msgid "model_selected"
+msgstr "Model seçildi"
+
+msgid "gemini_model_flash_info"
+msgstr "Model: Gemini 2.5 Flash\n\nEn hızlı ve ücretsiz model seçildi!\n\nÖzellikler:\n• Ultra hızlı yanıt\n• Ücretsiz kullanım"
+
+msgid "gemini_model_pro_info"
+msgstr "Model: Gemini 2.5 Pro\n\nGüçlü model seçildi!\n\nÖzellikler:\n• Yüksek kalite\n• Dengeli hız\n• Karmaşık analiz"
+
+msgid "gemini_model_3_pro_info"
+msgstr "Model: Gemini 3 Pro\n\nEn yeni ve güçlü model seçildi!"
+
+# ==============================
+# STATUS MESSAGES
+# ==============================
+
+msgid "xray_mode_active"
+msgstr "Aktif"
+
+msgid "xray_mode_inactive"
+msgstr "Kapalı"
+
+msgid "events"
+msgstr "olay"
+
+# ==============================
+# INFO MESSAGES
+# ==============================
+
+msgid "no_character_data"
+msgstr "Henüz karakter verisi yok. Önce 'AI ile Bilgi Çek' seçeneğini kullanın."
+
+msgid "no_char_data_fetch"
+msgstr "Henüz karakter bilgisi yok.\n\nLütfen önce AI'dan veri çekin."
+
+msgid "no_location_data"
+msgstr "Henüz mekan verisi yok. Önce 'AI ile Bilgi Çek' seçeneğini kullanın."
+
+msgid "no_author_data"
+msgstr "Henüz yazar bilgisi yok. Önce 'AI ile Bilgi Çek' seçeneğini kullanın."
+
+msgid "no_summary_data"
+msgstr "Henüz özet verisi yok. Önce 'AI ile Bilgi Çek' seçeneğini kullanın."
+
+msgid "no_theme_data"
+msgstr "Henüz tema verisi yok. Önce 'AI ile Bilgi Çek' seçeneğini kullanın."
+
+msgid "no_timeline_data"
+msgstr "Henüz zaman çizelgesi yok.\n\nÖnce 'AI ile Bilgi Çek' seçeneğini kullanın.\n\nAI, kitaptaki önemli olayları\nkronolojik sırayla gösterecek."
+
+msgid "no_historical_data"
+msgstr "Henüz tarihi kişilik bilgisi yok.\n\nÖnce 'AI ile Bilgi Çek' seçeneğini kullanın.\n\nAI, kitapta geçen gerçek tarihi\nkişilikleri tespit edip bilgi verecek."
+
+# ==============================
+# AUTO-LOAD & CACHE
+# ==============================
+
+msgid "xray_ready"
+msgstr "X-Ray hazır ve aktif!"
+
+msgid "characters_loaded"
+msgstr "karakter"
+
+msgid "locations_loaded"
+msgstr "mekan"
+
+msgid "themes_loaded"
+msgstr "tema"
+
+msgid "no_cache_found"
+msgstr "Cache bulunamadı"
+
+msgid "checking_cache"
+msgstr "Cache'den yüklendi!"
+
+msgid "cache_verify"
+msgstr "Bu kitap için zaten indirilmiş veri var.\nYeniden çekmek istiyorsanız önce temizlemelisiniz.\n\nYol: Menü → X-Ray → Cache Temizle"
+
+msgid "cache_saved"
+msgstr "Cache'e kaydedildi!"
+
+msgid "cache_save_failed"
+msgstr "Cache kaydedilemedi"
+
+msgid "cache_clear_confirm"
+msgstr "Cache Temizleme Onayı\n\nCache'i temizlerseniz:\n\n• Tüm karakter bilgileri silinir\n• Zaman çizelgesi silinir\n• Tarihi kişilikler silinir\n• Mekan ve tema bilgileri silinir\n• Yazar bilgisi silinir\n\nYeniden AI'dan veri çekmeniz gerekir.\n\nCache'i temizlemek istediğinizden emin misiniz?"
+
+msgid "yes_clear"
+msgstr "Evet, Temizle"
+
+msgid "cancel"
+msgstr "İptal"
+
+msgid "cache_cleared"
+msgstr "Cache temizlendi!\n\nŞimdi yeni veri çekebilirsiniz:\nMenü → X-Ray → AI ile Bilgi Çek"
+
+msgid "cache_not_found"
+msgstr "Cache bulunamadı veya temizlenemedi"
+
+# ==============================
+# CHARACTER DETAILS
+# ==============================
+
+msgid "character_name"
+msgstr "Karakter:"
+
+msgid "description"
+msgstr "Açıklama:"
+
+msgid "role"
+msgstr "Rol:"
+
+msgid "gender"
+msgstr "Cinsiyet:"
+
+msgid "occupation"
+msgstr "Meslek:"
+
+msgid "not_specified"
+msgstr "Belirtilmemiş"
+
+msgid "no_description"
+msgstr "Açıklama yok"
+
+msgid "unnamed_character"
+msgstr "İsimsiz Karakter"
+
+msgid "unknown_character"
+msgstr "Bilinmeyen Karakter"
+
+msgid "gender_male"
+msgstr "Erkek"
+
+msgid "gender_female"
+msgstr "Kadın"
+
+# ==============================
+# AI FETCH & STATUS
+# ==============================
+
+msgid "book_title"
+msgstr "Kitap:"
+
+msgid "characters_count"
+msgstr "Karakterler:"
+
+msgid "locations_count"
+msgstr "Mekanlar:"
+
+msgid "themes_count"
+msgstr "Temalar:"
+
+msgid "events_count"
+msgstr "Olaylar:"
+
+msgid "historical_count"
+msgstr "Tarihi Kişilikler:"
+
+msgid "cache_age"
+msgstr "Cache yaşı:"
+
+msgid "days_old"
+msgstr "gün"
+
+msgid "unlimited_valid"
+msgstr "Süresiz geçerli!"
+
+msgid "fetch_new_data"
+msgstr "Yeni veri çekmek için:\nMenü → X-Ray → Cache Temizle"
+
+msgid "no_api_key"
+msgstr "AI API Key ayarlanmamış!\n\nMenü → X-Ray → AI Ayarları\nbölümünden API key girin."
+
+msgid "fetching_ai"
+msgstr "AI'dan veri çekiliyor...\n\n"
+
+msgid "fetching_model"
+msgstr "Model: "
+
+msgid "fetching_wait"
+msgstr "⏳ Lütfen bekleyin...\nBu işlem 10-30 saniye sürebilir."
+
+msgid "dont_touch"
+msgstr "Ekrana dokunmayın."
+
+msgid "ai_fetch_failed"
+msgstr "AI'dan veri çekilemedi!\n\nSebep olabilir:\n• API key hatalı\n• İnternet bağlantısı yok\n• API limiti aşıldı"
+
+msgid "ai_fetch_complete"
+msgstr ""
+"✅ %s'den başarıyla çekildi!\n"      ← provider_name
+"\n"
+"%s\n"                                 ← book_title
+"Yazar: %s\n"                          ← author
+"\n"
+"%d karakter\n"                        ← #characters
+"%d mekan\n"                           ← #locations
+"%d tema\n"                            ← #themes
+"%d olay\n"                            ← #timeline
+"%d tarihi kişilik\n"                  ← #historical_figures
+"\n"
+"%s"                                   ← cache_msg
+
+# ==============================
+# X-RAY MODE & SEARCH
+# ==============================
+
+msgid "xray_mode_no_data"
+msgstr "X-Ray Modu için önce veri çekin!\n\nMenü → X-Ray → AI ile Bilgi Çek"
+
+msgid "xray_mode_enabled"
+msgstr "X-Ray Modu Aktif!\n\nNot: Metin seçme özelliği\nşu an aktif değil.\n\nKarakter aramak için:\nMenü → X-Ray → Karakterler → Ara"
+
+msgid "xray_mode_disabled"
+msgstr "X-Ray Modu Kapatıldı"
+
+msgid "search_character"
+msgstr "Karakter Ara..."
+
+msgid "search_character_title"
+msgstr "Karakter Ara"
+
+msgid "search_hint"
+msgstr "İsim yazın (örn: Stavrogin)"
+
+msgid "search_button"
+msgstr "Ara"
+
+msgid "character_not_found"
+msgstr "Karakter bulunamadı: %s\n\nİpucu: İsmin bir kısmını yazın"
+
+# ==============================
+# TIMELINE & CHAPTER
+# ==============================
+
+msgid "timeline_event"
+msgstr "Olay #%d"
+
+msgid "chapter"
+msgstr "Bölüm:"
+
+msgid "characters_involved"
+msgstr "Karakterler:"
+
+msgid "importance"
+msgstr "Önemi:"
+
+msgid "analyzing_chapter"
+msgstr "Bölüm analiz ediliyor...\n\nLütfen bekleyin"
+
+msgid "chapter_text_error"
+msgstr "Bölüm metni alınamadı"
+
+msgid "no_characters_in_chapter"
+msgstr "Bu bölümde hiç karakter bulunamadı.\n\nBölüm: %s"
+
+msgid "this_chapter"
+msgstr "Bu Bölüm"
+
+msgid "chapter_chars_title"
+msgstr "Karakter"
+
+# ==============================
+# CHARACTER NOTES
+# ==============================
+
+msgid "character_notes_title"
+msgstr "Karakter Notları (%d not)"
+
+msgid "add_note"
+msgstr "Not ekle"
+
+msgid "note_saved"
+msgstr "Not kaydedildi!\n\n%s"
+
+msgid "note_deleted"
+msgstr "Not silindi!\n\n%s"
+
+msgid "add_note_title"
+msgstr "%s için not ekle"
+
+msgid "note_hint"
+msgstr "Karakterle ilgili notunuz..."
+
+msgid "save"
+msgstr "Kaydet"
+
+msgid "delete"
+msgstr "Sil"
+
+# ==============================
+# QUICK MENU
+# ==============================
+
+msgid "quick_menu_title"
+msgstr "X-Ray Hızlı Erişim"
+
+msgid "fetch_data"
+msgstr "AI ile Veri Çek"
+
+# ==============================
+# API KEYS
+# ==============================
+
+msgid "gemini_key_title"
+msgstr "Google Gemini API Key"
+
+msgid "gemini_key_hint"
+msgstr "API key"
+
+msgid "gemini_key_desc"
+msgstr "Free API key:\nhttps://makersuite.google.com/app/apikey\n\nOr edit config.lua:\ngemini_api_key = \"AIzaSy...\""
+
+msgid "testing_key"
+msgstr "Testing API key..."
+
+msgid "gemini_key_saved"
+msgstr "Gemini API Key saved successfully!\n\nTest passed!\n\nYou can now use 'Fetch AI Data'."
+
+msgid "key_test_failed"
+msgstr "API Key saved but test failed!\n\nError: %s\n\nPlease check your API key."
+
+msgid "chatgpt_key_title"
+msgstr "ChatGPT API Key"
+
+msgid "chatgpt_key_hint"
+msgstr "sk-..."
+
+msgid "chatgpt_key_desc"
+msgstr "API key:\nhttps://platform.openai.com/api-keys\n\nOr edit config.lua:\nchatgpt_api_key = \"sk-...\""
+
+msgid "chatgpt_key_saved"
+msgstr "ChatGPT API Key saved!"
+
+# ==============================
+# PROVIDER SELECTION
+# ==============================
+
+msgid "provider_select_title"
+msgstr "AI Sağlayıcı Seç"
+
+msgid "gemini_selected"
+msgstr "Google Gemini seçildi"
+
+msgid "chatgpt_selected"
+msgstr "ChatGPT seçildi"
+
+msgid "set_key_first"
+msgstr "Önce API key ayarlayın"
+
+# ==============================
+# EXTRA TITLES
+# ==============================
+
+msgid "summary_title"
+msgstr "Kitap Özeti"
+
+msgid "themes_title"
+msgstr "Kitabın Temaları"
+
+msgid "hist_bio"
+msgstr "Biyografi"
+
+msgid "hist_importance"
+msgstr "Kitaptaki Önemi"
+
+msgid "hist_context"
+msgstr "Kitaptaki Bağlam"
+
+# ==============================
+# ABOUT
+# ==============================
+
+msgid "about_title"
+msgstr "X-Ray Plugin"
+
+msgid "about_text"
+msgstr ""
+"X-Ray Plugin\n"
+"═══════════════════════════════\n"
+"\n"
+"NE YAPAR?\n"
+"Kitaplarınızı Amazon Kindle X-Ray gibi zenginleştirir!\n"
+"AI kullanarak karakterler, mekanlar, tarihsel bağlam ve\n"
+"daha fazlasını otomatik olarak çıkarır.\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"ÖZELLIKLER:\n"
+"\n"
+"Akıllı Menüler\n"
+"• Her menü öğesinde canlı sayaçlar\n"
+"• Karakterler (12), Mekanlar (8) gibi\n"
+"\n"
+"Çoklu Dil Desteği\n"
+"• Türkçe ve İngilizce arayüz\n"
+"• AI'dan dile özel veri çekme\n"
+"• Kolayca yeni dil eklenebilir\n"
+"\n"
+"Gelişmiş Tarihi Analiz\n"
+"• Doğrudan referansları yakalar\n"
+"• Dolaylı referansları tespit eder\n"
+"• Felsefi ve entelektüel bağlamları bulur\n"
+"\n"
+"Daha İyi Geri Bildirim\n"
+"• AI çekme süresi bildirimleri\n"
+"• Detaylı ilerleme mesajları\n"
+"• Cache durumu raporları\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"TÜM ÖZELLİKLER:\n"
+"\n"
+"AI Entegrasyonu\n"
+"• Google Gemini desteği (ÜCRETSİZ!)\n"
+"• ChatGPT desteği\n"
+"• Akıllı JSON parsing\n"
+"• Hata telafisi mekanizması\n"
+"\n"
+"Karakter Yönetimi\n"
+"• Otomatik karakter çıkarımı\n"
+"• Detaylı karakter profilleri\n"
+"• Cinsiyet, meslek, rol bilgisi\n"
+"• Karakter arama özelliği\n"
+"• Kişisel not alma sistemi\n"
+"\n"
+"Bölüm Analizi\n"
+"• Anlık bölüm karakterlerini göster\n"
+"• Karakter geçiş sıklığı analizi\n"
+"• Bölüm bazlı filtreleme\n"
+"\n"
+"Zaman Çizelgesi\n"
+"• Önemli olayları kronolojik sırala\n"
+"• Olay-karakter ilişkilendirme\n"
+"• Spoiler-free açıklamalar\n"
+"\n"
+"Tarihi Kişilikler\n"
+"• Gerçek tarihi figürleri tespit et\n"
+"• Biyografik bilgiler\n"
+"• Kitaptaki bağlam açıklaması\n"
+"• Doğum-ölüm tarihleri\n"
+"\n"
+"Mekanlar\n"
+"• Önemli lokasyonlar\n"
+"• Mekan açıklamaları\n"
+"• Hikayedeki önemleri\n"
+"\n"
+"Temalar ve Özet\n"
+"• Ana temaları listele\n"
+"• Spoiler-free özet\n"
+"• Yazar biyografisi\n"
+"\n"
+"Cache Sistemi\n"
+"• Otomatik veri kaydetme\n"
+"• Süresiz geçerlilik\n"
+"• Offline kullanım\n"
+"• Kitap başına ayrı cache\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"HIZLI BAŞLANGIÇ:\n"
+"\n"
+"1. API Key Al\n"
+"Menü → X-Ray → AI Ayarları\n"
+"→ Google Gemini API Key\n"
+"(Ücretsiz: makersuite.google.com)\n"
+"\n"
+"2. Veri Çek\n"
+"Menü → X-Ray → AI ile Bilgi Çek\n"
+"(İlk seferde 10-15 saniye sürer)\n"
+"\n"
+"3. Keşfet!\n"
+"• Karakterler: Tüm karakterleri gör\n"
+"• Bu Bölümde: Mevcut bölümdeki karakterler\n"
+"• Zaman Çizelgesi: Olayları takip et\n"
+"• Tarihi Kişilikler: Gerçek tarihi figürler\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"KISAYOLLAR:\n"
+"\n"
+"Alt + X : Hızlı X-Ray menüsü\n"
+"Menü → X-Ray : Tam menü\n"
+"Menü tutarak bas : Hızlı menü\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"İPUÇLARI:\n"
+"\n"
+"• Cache bir kez oluşturulur, sonsuza kadar kullanılır\n"
+"• İnternet sadece ilk veri çekme için gerekli\n"
+"• Karakter notları kitap başına kaydedilir\n"
+"• Dil değişikliği hemen uygulanır\n"
+"• Gemini Flash modeli ücretsiz ve hızlıdır\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"TEKNİK BİLGİLER:\n"
+"\n"
+"Cache Konumu:\n"
+"~/.config/koreader/cache/xray/\n"
+"\n"
+"Ayarlar Konumu:\n"
+"~/.config/koreader/settings/xray/\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"ÖRNEK KULLANIM SENARYOLARI:\n"
+"\n"
+"Ecinniler (Dostoyevski) okuyorsunuz:\n"
+"✓ 15+ karakter otomatik tespit edildi\n"
+"✓ Sergei Nechayev gibi tarihi figürler eklendi\n"
+"✓ 1860'lar Rusya sosyalist hareketi açıklandı\n"
+"✓ Karakterlerin ilk görünüşleri işaretlendi\n"
+"\n"
+"Savaş ve Barış (Tolstoy) okuyorsunuz:\n"
+"✓ 100+ karakter organize edildi\n"
+"✓ Napolyon, Kutuzov gibi tarihsel figürler\n"
+"✓ Borodino Savaşı gibi olaylar zaman çizelgesinde\n"
+"✓ Moskova, Petersburg gibi mekanlar detaylı\n"
+"\n"
+"1984 (Orwell) okuyorsunuz:\n"
+"✓ Winston, Julia, O'Brien karakterleri\n"
+"✓ Distopik temalar listelendi\n"
+"• Bölüm bölüm karakter takibi\n"
+"• Kişisel notlarla analiz\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"SSS:\n"
+"\n"
+"S: API key ücretsiz mi?\n"
+"C: Evet! Gemini API ücretsiz kotası var.\n"
+"\n"
+"S: İnternet her zaman gerekli mi?\n"
+"C: Hayır, sadece ilk veri çekme için.\n"
+"\n"
+"S: Veriler nereden geliyor?\n"
+"C: Google Gemini AI'dan, kitap adına göre.\n"
+"\n"
+"S: Spoiler verir mi?\n"
+"C: Hayır, AI spoiler vermemesi için eğitildi.\n"
+"\n"
+"S: Hangi dilleri destekliyor?\n"
+"C: Şu an Türkçe ve İngilizce. Daha fazlası eklenebilir.\n"
+"\n"
+"S: Cache'i nasıl temizlerim?\n"
+"C: Menü → X-Ray → Cache Temizle\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"GERİ BİLDİRİM:\n"
+"\n"
+"Önerilerinizi ve hata raporlarınızı\n"
+"GitHub'ta paylaşın!\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"Keyifli okumalar!"
+
+# ==============================
+# LANGUAGE SELECTION
+# ==============================
+
+msgid "language_title"
+msgstr "Dil Seçin / Select Language"
+
+msgid "language_turkish"
+msgstr "Türkçe"
+
+msgid "language_english"
+msgstr "English"
+
+msgid "lang_changed_tr"
+msgstr "Dil: Türkçe"
+
+msgid "lang_changed_en"
+msgstr "Language: English"
+
+msgid "language_changed"
+msgstr "Dil değiştirildi: Türkçe"
+
+msgid "please_restart"
+msgstr "Değişikliklerin tam olarak uygulanması için\nkitabı kapatıp yeniden açın."
+
+# ==============================
+# PRESERVED FROM ORIGINAL PO (MISSING IN LUA)
+# ==============================
+
+msgid "language_name"
+msgstr "Türkçe"
+
+msgid "wifi_required"
+msgstr "İnternet bağlantısı gerekli!\n\nAI verilerini çekmek için kablosuz ağı açmak ister misiniz?"
+
+msgid "turn_on_wifi"
+msgstr "Kablosuz Ağı Aç"
+
+msgid "fetch_cancelled"
+msgstr "İşlem iptal edildi."
+
+msgid "wifi_connecting"
+msgstr "Kablosuz ağ açılıyor...\n\nLütfen bekleyin."
+
+msgid "wifi_connected"
+msgstr "Bağlantı başarılı!\n\nAI verileri çekiliyor..."
+
+msgid "error_503"
+msgstr "Gemini API aşırı yüklenmiş!\n\nModel şu anda çok fazla istek alıyor.\n\nLütfen birkaç dakika sonra tekrar deneyin.\n\nİpucu: config.lua dosyasında\nfarklı bir model deneyin:\ngemini_model = 'gemini-2.0-flash-exp'"
+
+msgid "error_429"
+msgstr "Çok fazla istek!\n\nAPI rate limit'ine ulaştınız.\n\nLütfen birkaç dakika bekleyip\ntekrar deneyin."
+
+msgid "error_404"
+msgstr "Model bulunamadı!\n\nSeçtiğiniz model mevcut değil.\n\nconfig.lua dosyasında modeli değiştirin:\ngemini_model = 'gemini-2.5-flash'"
+
+msgid "error_400"
+msgstr "Hatalı istek!\n\nAPI key veya model ayarlarınızı\nkontrol edin."
+
+msgid "ai_fallback_unnamed_character"
+msgstr "İsimsiz Karakter"
+
+msgid "ai_fallback_no_description"
+msgstr "Açıklama yok"
+
+msgid "ai_fallback_not_specified"
+msgstr "Belirtilmemiş"
+
+msgid "ai_fallback_unnamed_location"
+msgstr "İsimsiz Mekan"
+
+msgid "ai_fallback_unnamed_person"
+msgstr "İsimsiz Kişi"
+
+msgid "ai_fallback_no_biography"
+msgstr "Biyografi yok"
+
+msgid "ai_fallback_chapter"
+msgstr "Bölüm"
+
+msgid "ai_fallback_no_event_description"
+msgstr "Olay açıklaması yok"
+
+msgid "ai_fallback_unknown_book"
+msgstr "Bilinmeyen Kitap"
+
+msgid "ai_fallback_unknown_author"
+msgstr "Bilinmeyen Yazar"
+
+msgid "ok"
+msgstr "Tamam"
+
+msgid "menu_fetch_full"
+msgstr "📚 AI ile Bilgi Çek (Tam Kitap)"
+
+msgid "menu_fetch_progress"
+msgstr "📖 Okuduğum Yere Kadar (SPOILER-free)"
+
+msgid "progress_warning_low"
+msgstr "📖 Henüz çok az ilerlemişsiniz (%%%d)\n\nYine de devam edilsin mi?"
+
+msgid "progress_error"
+msgstr "⚠️ Okuma ilerlemesi alınamadı!\n\nTam kitap analizi yapılsın mı?"
+
+msgid "error_info"
+msgstr "❌ Hata Oluştu!"
+
+msgid "error_no_network"
+msgstr "📡 İnternet bağlantısı yok!\n\nLütfen Wi-Fi bağlantınızı kontrol edin."
+
+msgid "error_network_timeout"
+msgstr "⏱️ Bağlantı zaman aşımına uğradı!\n\nİnternet bağlantınızı kontrol edip tekrar deneyin."
+
+msgid "error_invalid_api_key"
+msgstr "🔑 API key geçersiz!\n\nLütfen API key'inizi kontrol edin."
+
+msgid "error_unknown"
+msgstr "❌ Bilinmeyen hata!\n\nLütfen tekrar deneyin."
+
+msgid "error_filtered"
+msgstr "İçerik filtreye takıldı."

@@ -45,10 +45,19 @@ function XRayPlugin:autoLoadCache()
         self.locations = cached_data.locations or {}
         self.themes = cached_data.themes or {}
         self.summary = cached_data.summary
-        self.author_info = cached_data.author_info
         self.timeline = cached_data.timeline or {}
         self.historical_figures = cached_data.historical_figures or {}
-        
+        if cached_data.author_info then
+            self.author_info = cached_data.author_info
+        else
+            -- Eğer yapı düz ise (author_bio varsa)
+            self.author_info = {
+                name = cached_data.author,
+                description = cached_data.author_bio,
+                birthDate = cached_data.author_birth,
+                deathDate = cached_data.author_death
+            }
+        end
         local cache_age = math.floor((os.time() - cached_data.cached_at) / 86400)
         
         logger.info("XRayPlugin: Auto-loaded from cache -", #self.characters, "characters,", 
@@ -81,6 +90,99 @@ function XRayPlugin:getMenuCounts()
     }
 end
 
+-- Get current reading progress (works for EPUB, PDF, MOBI, etc.)
+function XRayPlugin:getReadingProgress()
+    -- Default values
+    local current_page = 0
+    local total_pages = 0
+    local progress = 0
+    
+    if not self.ui or not self.ui.document then
+        logger.warn("XRayPlugin: No document or UI available")
+        return current_page, total_pages, progress
+    end
+    
+    local doc = self.ui.document
+    
+    -- Get total pages
+    local success_pages, pages = pcall(function() return doc:getPageCount() end)
+    if success_pages and pages and pages > 0 then
+        total_pages = pages
+    else
+        logger.warn("XRayPlugin: Could not get page count")
+        return current_page, total_pages, progress
+    end
+    
+    -- Try multiple methods to get current page
+    local methods = {
+        -- Method 1: Paging (for PDF, DjVu)
+        function()
+            if self.ui.paging and type(self.ui.paging.getCurrentPage) == "function" then
+                return self.ui.paging:getCurrentPage()
+            end
+        end,
+        -- Method 2: Rolling (for EPUB, MOBI)
+        function()
+            if self.ui.rolling and type(self.ui.rolling.getCurrentPage) == "function" then
+                return self.ui.rolling:getCurrentPage()
+            end
+        end,
+        -- Method 3: Document direct
+        function()
+            if type(doc.getCurrentPage) == "function" then
+                return doc:getCurrentPage()
+            end
+        end,
+        -- Method 4: View state
+        function()
+            if self.view and self.view.state and self.view.state.page then
+                return self.view.state.page
+            end
+        end,
+        -- Method 5: Document settings
+        function()
+            if self.ui.doc_settings then
+                local settings = self.ui.doc_settings
+                return settings:readSetting("last_page") or settings:readSetting("page")
+            end
+        end,
+    }
+    
+    -- Try each method
+    for i, method in ipairs(methods) do
+        local success_method, page = pcall(method)
+        if success_method and page and tonumber(page) then
+            current_page = tonumber(page)
+            logger.info("XRayPlugin: Got current page using method", i, ":", current_page)
+            break
+        end
+    end
+    
+    -- If still no page, try one more fallback
+    if current_page == 0 and self.ui.document then
+        local success_fallback, fallback_page = pcall(function()
+            -- Try to get from bookmark or last position
+            if self.ui.bookmark and self.ui.bookmark.getCurrentPageNumber then
+                return self.ui.bookmark:getCurrentPageNumber()
+            end
+        end)
+        
+        if success_fallback and fallback_page then
+            current_page = tonumber(fallback_page) or 0
+            logger.info("XRayPlugin: Got current page from fallback:", current_page)
+        end
+    end
+    
+    -- Calculate progress
+    if total_pages > 0 and current_page > 0 then
+        progress = math.floor((current_page / total_pages) * 100)
+    end
+    
+    logger.info("XRayPlugin: Reading progress -", current_page, "/", total_pages, "=", progress .. "%")
+    
+    return current_page, total_pages, progress
+end
+
 function XRayPlugin:addToMainMenu(menu_items)
     logger.info("XRayPlugin: addToMainMenu called")
     
@@ -92,6 +194,12 @@ function XRayPlugin:addToMainMenu(menu_items)
     })
     
     local counts = self:getMenuCounts()
+    local function safe_t(key)
+        if self.loc and self.loc.t then
+            return self.loc:t(key) or key
+        end
+        return key
+    end
     
     menu_items.xray = {
         text = self.loc:t("menu_xray"),
@@ -131,9 +239,7 @@ function XRayPlugin:addToMainMenu(menu_items)
                     self:showTimeline()
                 end,
             },
-            {
-                separator = true,
-            },
+            { separator = true,},
             {
                 text = self.loc:t("menu_historical_figures") .. (counts.historical_figures > 0 and " (" .. counts.historical_figures .. ")" or ""),
                 keep_menu_open = true,
@@ -169,9 +275,7 @@ function XRayPlugin:addToMainMenu(menu_items)
                     self:showThemes()
                 end,
             },
-            {
-                separator = true,
-            },
+            { separator = true },
             {
                 text = self.loc:t("menu_fetch_ai"),
                 keep_menu_open = true,
@@ -180,28 +284,34 @@ function XRayPlugin:addToMainMenu(menu_items)
                 end,
             },
             {
-                separator = true,
-            },
-            {
                 text = self.loc:t("menu_ai_settings"),
                 keep_menu_open = true,
                 sub_item_table = {
                     {
-                        text = "Google Gemini API Key",
+                        text = self.loc:t("menu_gemini_key"), 
                         keep_menu_open = true,
                         callback = function()
                             self:setGeminiAPIKey()
                         end,
                     },
                     {
-                        text = "ChatGPT API Key",
+                        text = self.loc:t("menu_gemini_model"), 
+                        keep_menu_open = true,
+                        callback = function()
+                            self:selectGeminiModel()
+                        end,
+                    },
+                    { separator = true },
+                    {
+                        text = self.loc:t("menu_chatgpt_key"), 
                         keep_menu_open = true,
                         callback = function()
                             self:setChatGPTAPIKey()
                         end,
                     },
+                    { separator = true },
                     {
-                        text = "AI " .. (self.loc:getLanguage() == "tr" and "Sağlayıcı Seç" or "Provider"),
+                        text = self.loc:t("menu_provider_select"), 
                         keep_menu_open = true,
                         callback = function()
                             self:selectAIProvider()
@@ -209,6 +319,7 @@ function XRayPlugin:addToMainMenu(menu_items)
                     },
                 }
             },
+            {separator = true,},
             {
                 text = self.loc:t("menu_clear_cache"),
                 keep_menu_open = true,
@@ -230,9 +341,7 @@ function XRayPlugin:addToMainMenu(menu_items)
                     self:showLanguageSelection()
                 end,
             },
-            {
-                separator = true,
-            },
+            { separator = true },
             {
                 text = self.loc:t("menu_about"),
                 keep_menu_open = true,
@@ -243,69 +352,63 @@ function XRayPlugin:addToMainMenu(menu_items)
         }
     }
     
-    logger.info("XRayPlugin: Menu item 'xray' added successfully")
+    logger.info("XRayPlugin: Menu item 'xray' added successfully with Gemini Model option")
 end
 
 function XRayPlugin:showLanguageSelection()
     local ButtonDialog = require("ui/widget/buttondialog")
+    local InfoMessage = require("ui/widget/infomessage")
     
-    local current_lang = self.loc:getLanguage()
+    local current_lang = "tr" -- Varsayılan
+    if self.loc then
+        current_lang = self.loc:getLanguage()
+    end
+    
+    local function changeLang(lang_code, lang_name)
+        UIManager:close(self.ldlg)
+        
+        if self.loc then 
+            self.loc:setLanguage(lang_code) 
+        end
+        
+        UIManager:show(InfoMessage:new{
+            text = "✅" .. self.loc:t("language_changed") .. "\n\n" .. self.loc:t("please_restart"),
+            timeout = 4 
+        })
+    end
     
     local buttons = {
         {
             {
-                text = self.loc:t("language_turkish") .. (current_lang == "tr" and " ✓" or ""),
-                callback = function()
-                    self.loc:setLanguage("tr")
-                    UIManager:close(self.language_dialog)
-                    
-                    -- Show success message
-                    UIManager:show(InfoMessage:new{
-                        text = "✅ Dil değiştirildi: Türkçe\n\nDil değişikliği hemen uygulandı.\nMenüyü yeniden açtığınızda\nyeni dili göreceksiniz.",
-                        timeout = 5,
-                    })
-                    
-                    logger.info("XRayPlugin: Language changed to Turkish")
-                end,
-            },
+                -- Eğer mevcut dil 'tr' ise yanına tik koy
+                text = "Türkçe" .. (current_lang == "tr" and " ✓" or ""), 
+                callback = function() changeLang("tr", "Türkçe") end
+            }
         },
         {
             {
-                text = self.loc:t("language_english") .. (current_lang == "en" and " ✓" or ""),
-                callback = function()
-                    self.loc:setLanguage("en")
-                    UIManager:close(self.language_dialog)
-                    
-                    -- Show success message
-                    UIManager:show(InfoMessage:new{
-                        text = "✅ Language changed: English\n\nLanguage change applied immediately.\nYou will see the new language\nwhen you reopen the menu.",
-                        timeout = 5,
-                    })
-                    
-                    logger.info("XRayPlugin: Language changed to English")
-                end,
-            },
+                -- Eğer mevcut dil 'en' ise yanına tik koy
+                text = "English" .. (current_lang == "en" and " ✓" or ""), 
+                callback = function() changeLang("en", "English") end
+            }
+        },
+        {
+            {
+                -- Eğer mevcut dil 'por' ise yanına tik koy
+                text = "Português" .. (current_lang == "pt_br" and " ✓" or ""), 
+                callback = function() changeLang("pt_br", "Português") end
+            }
         },
     }
     
-    self.language_dialog = ButtonDialog:new{
-        title = self.loc:t("language_title"),
-        buttons = buttons,
-    }
-    
-    UIManager:show(self.language_dialog)
-end
-
-function XRayPlugin:refreshMenu()
-    -- Menu will refresh automatically on next open
-    -- No need to force close, just let the language change take effect
-    logger.info("XRayPlugin: Language changed, menu will refresh on next open")
+    self.ldlg = ButtonDialog:new{title = "Language / Dil", buttons = buttons}
+    UIManager:show(self.ldlg)
 end
 
 function XRayPlugin:showCharacters()
     if not self.characters or #self.characters == 0 then
         UIManager:show(InfoMessage:new{
-            text = self.loc:t("no_character_data"),
+            text = self.loc:t("no_character_data") or "No character data",
             timeout = 3,
         })
         return
@@ -313,41 +416,71 @@ function XRayPlugin:showCharacters()
     
     local items = {}
     
+    -- Add search option
     table.insert(items, {
-        text = self.loc:t("search_character"),
+        text = self.loc:t("search_character") or "🔍 Search Character",
         callback = function()
             self:showCharacterSearch()
         end
     })
     
-    table.insert(items, {
-        text = "────────────────",
-        separator = true,
-    })
-    
+    -- Add characters
     for i, char in ipairs(self.characters) do
-        local name = char.name or self.loc:t("unknown_character")
-        local text = "│ " .. name
-        
-        if char.description then
-            text = text .. "\n  " .. char.description
-        elseif char.gender or char.occupation then
-            local details = {}
-            if char.gender then table.insert(details, char.gender) end
-            if char.occupation then table.insert(details, char.occupation) end
-            text = text .. "\n  " .. table.concat(details, ", ")
-        end
-        
-        table.insert(items, {
-            text = text,
-            callback = function()
-                self:showCharacterDetails(char)
+        -- CRITICAL: Ensure char and char.name exist
+        if char and type(char) == "table" then
+            local name = char.name
+            
+            -- Ensure name is a string
+            if type(name) ~= "string" or name == "" then
+                name = self.loc:t("unknown_character") or "Unknown Character"
             end
+            
+            local text = "│ " .. name
+            
+            -- Add description if available
+            if char.description and type(char.description) == "string" and #char.description > 0 then
+                text = text .. "\n   " .. char.description
+            elseif char.gender or char.occupation then
+                local details = {}
+                if char.gender and type(char.gender) == "string" then 
+                    table.insert(details, char.gender) 
+                end
+                if char.occupation and type(char.occupation) == "string" then 
+                    table.insert(details, char.occupation) 
+                end
+                if #details > 0 then
+                    text = text .. "\n   " .. table.concat(details, ", ")
+                end
+            end
+            
+            -- CRITICAL: Ensure text is not nil
+            if text and type(text) == "string" and #text > 0 then
+                table.insert(items, {
+                    text = text,
+                    callback = function()
+                        self:showCharacterDetails(char)
+                    end
+                })
+            else
+                logger.warn("XRayPlugin: Skipping character with invalid text at index", i)
+            end
+        else
+            logger.warn("XRayPlugin: Skipping invalid character at index", i)
+        end
+    end
+    
+    -- Ensure we have items to display
+    if #items <= 2 then
+        -- Only search and separator
+        UIManager:show(InfoMessage:new{
+            text = self.loc:t("no_character_data") or "No valid character data",
+            timeout = 3,
         })
+        return
     end
     
     local character_menu = Menu:new{
-        title = self.loc:t("menu_characters") .. " (" .. #self.characters .. ")",
+        title = (self.loc:t("menu_characters") or "Characters") .. " (" .. #self.characters .. ")",
         item_table = items,
         is_borderless = true,
         is_popout = false,
@@ -407,132 +540,236 @@ function XRayPlugin:showCharacterDetails(character)
     })
 end
 
+function XRayPlugin:selectGeminiModel()
+    if not self.ai_helper then
+        local AIHelper = require("aihelper")
+        self.ai_helper = AIHelper
+        self.ai_helper:init()
+    end
+
+    local current_model = "gemini-2.5-flash"
+    if self.ai_helper.providers and self.ai_helper.providers.gemini then
+        current_model = self.ai_helper.providers.gemini.model or "gemini-2.5-flash"
+    end
+
+    local ButtonDialog = require("ui/widget/buttondialog")
+    local buttons = {
+        {
+            {
+                text = "Gemini 2.5 Flash" .. (current_model == "gemini-2.5-flash" and " ✓" or ""),
+                callback = function()
+                    self.ai_helper:setGeminiModel("gemini-2.5-flash")
+                    UIManager:close(self.dlg)
+                    local InfoMessage = require("ui/widget/infomessage")
+                    UIManager:show(InfoMessage:new{text = self.loc:t("gemini_model_flash_info"), timeout = 2})
+                end
+            }
+        },
+        {
+            {
+                text = "Gemini 2.5 Pro" .. (current_model == "gemini-2.5-pro" and " ✓" or ""),
+                callback = function()
+                    self.ai_helper:setGeminiModel("gemini-2.5-pro")
+                    UIManager:close(self.dlg)
+                    local InfoMessage = require("ui/widget/infomessage")
+                    UIManager:show(InfoMessage:new{text = self.loc:t("gemini_model_pro_info"), timeout = 2})
+                end
+            }
+        },
+        {
+            {
+                text = "Gemini 3 Pro Preview" .. (current_model == "gemini-3-pro-preview" and " ✓" or ""),
+                callback = function()
+                    self.ai_helper:setGeminiModel("gemini-3-pro-preview")
+                    UIManager:close(self.dlg)
+                    local InfoMessage = require("ui/widget/infomessage")
+                    UIManager:show(InfoMessage:new{text = self.loc:t("gemini_model_3_pro_info"), timeout = 2})
+                end
+            }
+        },
+    }
+    self.dlg = ButtonDialog:new{
+        title = self.loc:t("gemini_model_title"),
+        buttons = buttons,
+    }
+    UIManager:show(self.dlg)
+end
+
 function XRayPlugin:fetchFromAI()
+    logger.info("XRayPlugin: Fetching AI data")
+    
+    -- 1. WİRELESS KONTROL (YENİ EKLENEN)
+    local NetworkMgr = require("ui/network/manager")
+    
+    if not NetworkMgr:isOnline() then
+        logger.info("XRayPlugin: Network is offline, asking user...")
+        
+        local UIManager = require("ui/uimanager")
+        local ConfirmBox = require("ui/widget/confirmbox")
+        
+        UIManager:show(ConfirmBox:new{
+            text = self.loc:t("wifi_required"),
+            ok_text = self.loc:t("turn_on_wifi"),
+            cancel_text = self.loc:t("cancel"),
+            ok_callback = function()
+                logger.info("XRayPlugin: User chose to turn on WiFi")
+                
+                -- WiFi'yi aç
+                NetworkMgr:turnOnWifi(function()
+                    logger.info("XRayPlugin: WiFi turned on, proceeding with fetch")
+                    -- WiFi açıldıktan sonra fetch işlemini başlat
+                    self:continueWithFetch()
+                end)
+            end,
+            cancel_callback = function()
+                logger.info("XRayPlugin: User cancelled WiFi activation")
+                local InfoMessage = require("ui/widget/infomessage")
+                UIManager:show(InfoMessage:new{
+                    text = self.loc:t("fetch_cancelled"),
+                    timeout = 3,
+                })
+            end,
+        })
+        return
+    end
+    
+    -- WiFi zaten açıksa direkt devam et
+    self:continueWithFetch()
+end
+
+function XRayPlugin:continueWithFetch()
+    logger.info("XRayPlugin: Continuing with fetch process")
+    
+    -- 1. Cache Manager Başlat (Kontrol için gerekli)
+    if not self.cache_manager then
+        local CacheManager = require("cachemanager")
+        self.cache_manager = CacheManager:new()
+    end
+    
+    -- 2. CACHE KONTROLÜ
+    local book_path = self.ui.document.file
+    local cache_path = self.cache_manager:getCachePath(book_path)
+    local lfs = require("libs/libkoreader-lfs")
+    
+    -- Eğer cache dosyası varsa, işlemi durdur ve uyarı ver
+    if cache_path and lfs.attributes(cache_path) then
+        local InfoMessage = require("ui/widget/infomessage")
+        UIManager:show(InfoMessage:new{
+            text = self.loc:t("cache_verify"),
+            timeout = 6,
+        })
+        return 
+    end
+
+    -- 3. AI Helper Başlat (Eğer cache yoksa devam et)
     if not self.ai_helper then
         local AIHelper = require("aihelper")
         self.ai_helper = AIHelper
         self.ai_helper:init()
     end
     
-    if not self.cache_manager then
-        local CacheManager = require("cachemanager")
-        self.cache_manager = CacheManager:new()
-    end
-    
-    local book_path = self.ui.document.file
-    
-    logger.info("XRayPlugin: Checking cache for:", book_path)
-    local cached_data = self.cache_manager:loadCache(book_path)
-    
-    if cached_data then
-        self.book_data = cached_data
-        self.characters = cached_data.characters or {}
-        self.locations = cached_data.locations or {}
-        self.themes = cached_data.themes or {}
-        self.summary = cached_data.summary
-        self.author_info = cached_data.author_info
-        self.timeline = cached_data.timeline or {}
-        self.historical_figures = cached_data.historical_figures or {}
-        
-        local cache_age = math.floor((os.time() - cached_data.cached_at) / 86400)
-        
-        UIManager:show(InfoMessage:new{
-            text = self.loc:t("checking_cache") .. "\n\n" ..
-                   self.loc:t("book_title") .. " " .. (cached_data.book_title or "Unknown") .. "\n\n" ..
-                   self.loc:t("characters_count") .. " " .. #self.characters .. "\n" ..
-                   self.loc:t("locations_count") .. " " .. #self.locations .. "\n" ..
-                   self.loc:t("themes_count") .. " " .. #self.themes .. "\n" ..
-                   self.loc:t("events_count") .. " " .. #self.timeline .. "\n" ..
-                   self.loc:t("historical_count") .. " " .. #self.historical_figures .. "\n\n" ..
-                   self.loc:t("cache_age") .. " " .. cache_age .. " " .. self.loc:t("days_old") .. "\n" ..
-                   self.loc:t("unlimited_valid") .. "\n\n" ..
-                   self.loc:t("fetch_new_data"),
-            timeout = 7,
-        })
-        
-        logger.info("XRayPlugin: Loaded from cache -", #self.characters, "characters")
-        return
-    end
-    
-    logger.info("XRayPlugin: No cache found, fetching from AI")
-    
-    local provider = self.ai_provider or "gemini"
-    
-    local has_key = self.ai_helper.providers[provider] and 
-                    self.ai_helper.providers[provider].api_key
-    
-    if not has_key then
-        UIManager:show(InfoMessage:new{
-            text = self.loc:t("no_api_key") .. "\n\n" ..
-                   "Google Gemini (Free):\n" ..
-                   "https://makersuite.google.com/app/apikey\n\n" ..
-                   "ChatGPT:\n" ..
-                   "https://platform.openai.com/api-keys",
-            timeout = 10,
-        })
-        return
-    end
-    
-    UIManager:show(InfoMessage:new{
-        text = string.format(self.loc:t("fetching_ai"), self.ai_helper.providers[provider].name),
-        timeout = 2,
-    })
+    -- Seçili provider'ı al (varsayılan: gemini)
+    local selected_provider = self.ai_provider or self.ai_helper.default_provider or "gemini"
+    local provider_config = self.ai_helper.providers[selected_provider]
     
     local title = self.ui.document:getProps().title or "Unknown"
-    local author = self.ui.document:getProps().authors or nil
+    local author = self.ui.document:getProps().authors or ""
     
-    logger.info("XRayPlugin: Fetching AI data for:", title, "by", author)
+    -- Model adını seçili provider'a göre al
+    local current_model = self.loc:t("unknown_model")
+    if provider_config and provider_config.model then
+        current_model = provider_config.model
+    end
     
-    local book_data = self.ai_helper:getBookData(title, author, provider)
+    -- Provider adını al
+    local provider_name = provider_config and provider_config.name or "AI"
     
-    if not book_data then
+    -- 4. Bekleme Mesajı Göster
+    local InfoMessage = require("ui/widget/infomessage")
+    local wait_msg = InfoMessage:new{
+        text = string.format(
+            self.loc:t("fetching_ai") ..
+            self.loc:t("fetching_model") .. "%s\n" ..
+            self.loc:t("book_title") .. "%s\n\n" ..
+            self.loc:t("fetching_wait") ..
+            self.loc:t("dont_touch"), 
+            current_model,
+            title
+        ),
+        timeout = 60,
+    }
+    UIManager:show(wait_msg)
+    
+    -- 5. İşlemi Başlat
+    UIManager:scheduleIn(1.0, function()
+        -- Seçili provider'ı kullan
+        local book_data, error_code, error_msg = self.ai_helper:getBookData(title, author, selected_provider, nil)
+        
+        if wait_msg then UIManager:close(wait_msg) end
+        
+        if not book_data then
+            local error_text = self.loc:t("error_info") .. "\n\n"
+            if error_code == "error_safety" then
+                error_text = error_text .. self.loc:t("error_filtered")
+            elseif error_code == "error_503" then
+                error_text = error_text .. self.loc:t("error_network_timeout")
+            elseif error_msg then
+                error_text = error_text .. error_msg
+            else
+                error_text = error_text .. self.loc:t("ai_fetch_failed")
+            end
+            
+            UIManager:show(InfoMessage:new{
+                text = error_text,
+                timeout = 7,
+            })
+            return
+        end
+    
+        -- Save data to plugin state
+        self.book_title = book_data.book_title
+        self.author = book_data.author
+        self.author_bio = book_data.author_bio
+        self.author_birth = book_data.author_birth
+        self.author_death = book_data.author_death
+        self.summary = book_data.summary
+        self.characters = book_data.characters or {}
+        self.themes = book_data.themes or {}
+        self.locations = book_data.locations or {}
+        self.timeline = book_data.timeline or {}
+        self.historical_figures = book_data.historical_figures or {}
+        
+        logger.info("XRayPlugin: Found", #self.characters, "characters")
+        logger.info("XRayPlugin: Found", #self.themes, "themes")
+        logger.info("XRayPlugin: Found", #self.locations, "locations")
+        logger.info("XRayPlugin: Found", #self.timeline, "timeline events")
+        logger.info("XRayPlugin: Found", #self.historical_figures, "historical figures")
+        
+        -- Save to cache
+        logger.info("XRayPlugin: Saving to cache")
+        local cache_saved = self.cache_manager:saveCache(book_path, book_data)
+        
+        local cache_msg = cache_saved and self.loc:t("cache_saved") or self.loc:t("cache_save_failed")
+        
+        -- Show detailed success message with proper string.format
+        local success_message = string.format(
+            self.loc:t("ai_fetch_complete"),
+            provider_name,                          -- %s: Provider adı (Google Gemini / ChatGPT)
+            book_data.book_title,                   -- %s: Kitap adı
+            book_data.author,                       -- %s: Yazar
+            #self.characters,                       -- %d: Karakter sayısı
+            #self.locations,                        -- %d: Mekan sayısı
+            #self.themes,                           -- %d: Tema sayısı
+            #self.timeline,                         -- %d: Olay sayısı
+            #self.historical_figures,               -- %d: Tarihi kişilik sayısı
+            cache_msg                               -- %s: Cache mesajı
+        )
+        
         UIManager:show(InfoMessage:new{
-            text = self.loc:t("ai_fetch_failed"),
-            timeout = 7,
+            text = success_message,
+            timeout = 10,
         })
-        return
-    end
-    
-    self.book_data = book_data
-    self.characters = book_data.characters or {}
-    self.locations = book_data.locations or {}
-    self.themes = book_data.themes or {}
-    self.summary = book_data.summary
-    self.timeline = book_data.timeline or {}
-    self.historical_figures = book_data.historical_figures or {}
-    
-    if book_data.author then
-        self.author_info = {
-            name = book_data.author,
-            description = book_data.author_bio,
-            birthDate = book_data.author_birth,
-            deathDate = book_data.author_death,
-        }
-        book_data.author_info = self.author_info
-    end
-    
-    logger.info("XRayPlugin: Saving to cache")
-    local cache_saved = self.cache_manager:saveCache(book_path, book_data)
-    
-    local message = string.format(
-        self.loc:t("ai_fetch_complete"),
-        self.ai_helper.providers[provider].name,
-        book_data.book_title or title,
-        #self.characters,
-        book_data.author or "Unknown",
-        #self.locations,
-        #self.themes,
-        #self.timeline,
-        #self.historical_figures,
-        cache_saved and self.loc:t("cache_saved") or self.loc:t("cache_save_failed")
-    )
-    
-    UIManager:show(InfoMessage:new{
-        text = message,
-        timeout = 7,
-    })
-    
-    logger.info("XRayPlugin: AI data fetch complete")
+    end)
 end
 
 function XRayPlugin:showLocations()
@@ -587,7 +824,7 @@ function XRayPlugin:showLocations()
 end
 
 function XRayPlugin:showAuthorInfo()
-    if not self.author_info then
+    if not self.author_info or not self.author_info.description or #self.author_info.description == 0 then
         UIManager:show(InfoMessage:new{
             text = self.loc:t("no_author_data"),
             timeout = 3,
@@ -595,22 +832,14 @@ function XRayPlugin:showAuthorInfo()
         return
     end
     
-    local text = "✍️ " .. (self.author_info.name or "Unknown Author") .. "\n\n"
+    local text = "✍️ " .. (self.author_info.name or self.loc:t("menu_author_info")) .. "\n\n"
+    text = text .. self.author_info.description .. "\n\n"
     
-    if self.author_info.description then
-        text = text .. self.author_info.description .. "\n\n"
+    if self.author_info.birthDate and #self.author_info.birthDate > 0 then
+        text = text .. "📅: " .. self.author_info.birthDate .. "\n"
     end
-    
-    if self.author_info.birthDate then
-        text = text .. "📅 " .. (self.loc:getLanguage() == "tr" and "Doğum" or "Birth") .. ": " .. self.author_info.birthDate .. "\n"
-    end
-    
-    if self.author_info.deathDate then
-        text = text .. "💀 " .. (self.loc:getLanguage() == "tr" and "Ölüm" or "Death") .. ": " .. self.author_info.deathDate .. "\n"
-    end
-    
-    if self.author_info.occupation then
-        text = text .. "💼 " .. self.loc:t("occupation") .. ": " .. self.author_info.occupation .. "\n"
+    if self.author_info.deathDate and #self.author_info.deathDate > 0 then
+        text = text .. "💀: " .. self.author_info.deathDate .. "\n"
     end
     
     UIManager:show(InfoMessage:new{
@@ -767,10 +996,10 @@ function XRayPlugin:setGeminiAPIKey()
     
     local input_dialog
     input_dialog = InputDialog:new{
-        title = "Google Gemini API Key",
+        title = self.loc:t("gemini_key_title"), 
         input = current_key,
-        input_hint = "API key",
-        description = "Free API key:\nhttps://makersuite.google.com/app/apikey\n\nOr edit config.lua:\ngemini_api_key = \"AIzaSy...\"",
+        input_hint = self.loc:t("gemini_key_hint"), 
+        description = self.loc:t("gemini_key_desc"), 
         buttons = {
             {
                 {
@@ -794,7 +1023,7 @@ function XRayPlugin:setGeminiAPIKey()
                             self.ai_provider = "gemini"
                             
                             UIManager:show(InfoMessage:new{
-                                text = "⏳ Testing API key...",
+                                text = self.loc:t("testing_key"), 
                                 timeout = 2,
                             })
                             
@@ -802,12 +1031,12 @@ function XRayPlugin:setGeminiAPIKey()
                             
                             if success then
                                 UIManager:show(InfoMessage:new{
-                                    text = "✅ Gemini API Key saved successfully!\n\n🎉 Test passed!\n\nYou can now use 'Fetch AI Data'.",
+                                    text = self.loc:t("gemini_key_saved"), 
                                     timeout = 5,
                                 })
                             else
                                 UIManager:show(InfoMessage:new{
-                                    text = "⚠️ API Key saved but test failed!\n\nError: " .. message .. "\n\nPlease check your API key.",
+                                    text = string.format(self.loc:t("key_test_failed"), message), 
                                     timeout = 8,
                                 })
                             end
@@ -835,10 +1064,10 @@ function XRayPlugin:setChatGPTAPIKey()
     
     local input_dialog
     input_dialog = InputDialog:new{
-        title = "ChatGPT API Key",
+        title = self.loc:t("chatgpt_key_title"), 
         input = current_key,
-        input_hint = "sk-...",
-        description = "API key:\nhttps://platform.openai.com/api-keys\n\nOr edit config.lua:\nchatgpt_api_key = \"sk-...\"",
+        input_hint = self.loc:t("chatgpt_key_hint"), 
+        description = self.loc:t("chatgpt_key_desc"), 
         buttons = {
             {
                 {
@@ -861,7 +1090,7 @@ function XRayPlugin:setChatGPTAPIKey()
                             self.ai_provider = "chatgpt"
                             
                             UIManager:show(InfoMessage:new{
-                                text = "✅ ChatGPT API Key saved!",
+                                text = self.loc:t("chatgpt_key_saved"), 
                                 timeout = 3,
                             })
                         end
@@ -878,25 +1107,31 @@ end
 function XRayPlugin:selectAIProvider()
     if not self.ai_helper then
         local AIHelper = require("aihelper")
-        self.ai_helper = AIHelper
+        self.ai_helper = AIHelper  -- Modül referansını tut
         self.ai_helper:init()
     end
     
+    -- ai_helper artık doğru şekilde başlatıldı, default_provider'ı kullan
     if not self.ai_provider and self.ai_helper.default_provider then
         self.ai_provider = self.ai_helper.default_provider
     end
     
     local providers = {}
     
-    if self.ai_helper.providers.gemini.api_key then
+    local gemini_key = self.ai_helper.providers.gemini and self.ai_helper.providers.gemini.api_key
+    if gemini_key and gemini_key ~= "" then
         table.insert(providers, {
             text = "✅ Google Gemini (" .. (self.loc:getLanguage() == "tr" and "Aktif" or "Active") .. ": " .. (self.ai_provider == "gemini" and (self.loc:getLanguage() == "tr" and "EVET" or "YES") or (self.loc:getLanguage() == "tr" and "HAYIR" or "NO")) .. ")",
             callback = function()
                 self.ai_provider = "gemini"
+                self.ai_helper:setDefaultProvider("gemini")
                 UIManager:show(InfoMessage:new{
-                    text = "✅ Google Gemini " .. (self.loc:getLanguage() == "tr" and "seçildi" or "selected"),
+                    text = self.loc:t("gemini_selected"), 
                     timeout = 2,
                 })
+                -- Menüyü kapat ve yeniden aç
+                UIManager:close(provider_menu)
+                self:selectAIProvider()
             end,
         })
     else
@@ -904,22 +1139,27 @@ function XRayPlugin:selectAIProvider()
             text = "❌ Google Gemini (" .. (self.loc:getLanguage() == "tr" and "API key yok" or "No API key") .. ")",
             callback = function()
                 UIManager:show(InfoMessage:new{
-                    text = (self.loc:getLanguage() == "tr" and "⚠️ Önce API key ayarlayın" or "⚠️ Please set API key first"),
+                    text = self.loc:t("set_key_first"), 
                     timeout = 3,
                 })
             end,
         })
     end
     
-    if self.ai_helper.providers.chatgpt.api_key then
+    local chatgpt_key = self.ai_helper.providers.chatgpt and self.ai_helper.providers.chatgpt.api_key
+    if chatgpt_key and chatgpt_key ~= "" then
         table.insert(providers, {
             text = "✅ ChatGPT (" .. (self.loc:getLanguage() == "tr" and "Aktif" or "Active") .. ": " .. (self.ai_provider == "chatgpt" and (self.loc:getLanguage() == "tr" and "EVET" or "YES") or (self.loc:getLanguage() == "tr" and "HAYIR" or "NO")) .. ")",
             callback = function()
                 self.ai_provider = "chatgpt"
+                self.ai_helper:setDefaultProvider("chatgpt")
                 UIManager:show(InfoMessage:new{
-                    text = "✅ ChatGPT " .. (self.loc:getLanguage() == "tr" and "seçildi" or "selected"),
+                    text = self.loc:t("chatgpt_selected"), 
                     timeout = 2,
                 })
+                -- Menüyü kapat ve yeniden aç
+                UIManager:close(provider_menu)
+                self:selectAIProvider()
             end,
         })
     else
@@ -927,7 +1167,7 @@ function XRayPlugin:selectAIProvider()
             text = "❌ ChatGPT (" .. (self.loc:getLanguage() == "tr" and "API key yok" or "No API key") .. ")",
             callback = function()
                 UIManager:show(InfoMessage:new{
-                    text = (self.loc:getLanguage() == "tr" and "⚠️ Önce API key ayarlayın" or "⚠️ Please set API key first"),
+                    text = self.loc:t("set_key_first"), 
                     timeout = 3,
                 })
             end,
@@ -935,7 +1175,7 @@ function XRayPlugin:selectAIProvider()
     end
     
     local provider_menu = Menu:new{
-        title = self.loc:getLanguage() == "tr" and "AI Sağlayıcı Seç" or "Select AI Provider",
+        title = self.loc:t("provider_select_title"), 
         item_table = providers,
         is_borderless = true,
         is_popout = false,
@@ -947,6 +1187,8 @@ function XRayPlugin:selectAIProvider()
     UIManager:show(provider_menu)
 end
 
+
+
 function XRayPlugin:showSummary()
     if not self.summary or #self.summary == 0 then
         UIManager:show(InfoMessage:new{
@@ -957,7 +1199,7 @@ function XRayPlugin:showSummary()
     end
     
     UIManager:show(InfoMessage:new{
-        text = "📖 " .. (self.loc:getLanguage() == "tr" and "Kitap Özeti" or "Book Summary") .. "\n\n" .. self.summary .. "\n\n(Spoiler-free)",
+        text = "📖 " .. self.loc:t("summary_title") .. "\n\n" .. self.summary .. "\n\n(Spoiler-free)", 
         timeout = 15,
     })
 end
@@ -971,7 +1213,7 @@ function XRayPlugin:showThemes()
         return
     end
     
-    local text = "🎨 " .. (self.loc:getLanguage() == "tr" and "Kitabın Temaları" or "Book Themes") .. "\n\n"
+    local text = "🎨 " .. self.loc:t("themes_title") .. "\n\n" 
     for i, theme in ipairs(self.themes) do
         text = text .. i .. ". " .. theme .. "\n"
     end
@@ -1126,16 +1368,17 @@ function XRayPlugin:showHistoricalFigureDetails(figure)
         text = text .. "👔 " .. self.loc:t("role") .. ": " .. figure.role .. "\n\n"
     end
     
+    
     if figure.biography then
-        text = text .. "📖 " .. (self.loc:getLanguage() == "tr" and "Biyografi" or "Biography") .. ":\n" .. figure.biography .. "\n\n"
+        text = text .. "📖 " .. self.loc:t("hist_bio") .. ":\n" .. figure.biography .. "\n\n"
     end
     
     if figure.importance_in_book then
-        text = text .. "📚 " .. (self.loc:getLanguage() == "tr" and "Kitaptaki Önemi" or "Importance in Book") .. ":\n" .. figure.importance_in_book .. "\n\n"
+        text = text .. "📚 " .. self.loc:t("hist_importance") .. ":\n" .. figure.importance_in_book .. "\n\n"
     end
     
     if figure.context_in_book then
-        text = text .. "💡 " .. (self.loc:getLanguage() == "tr" and "Kitaptaki Bağlam" or "Context in Book") .. ":\n" .. figure.context_in_book
+        text = text .. "💡 " .. self.loc:t("hist_context") .. ":\n" .. figure.context_in_book
     end
     
     UIManager:show(InfoMessage:new{
@@ -1147,7 +1390,7 @@ end
 function XRayPlugin:showChapterCharacters()
     if not self.characters or #self.characters == 0 then
         UIManager:show(InfoMessage:new{
-            text = self.loc:getLanguage() == "tr" and "Henüz karakter bilgisi yok.\n\nLütfen önce AI'dan veri çekin." or "No character data yet.\n\nPlease fetch AI data first.",
+            text = self.loc:t("no_char_data_fetch"), 
             timeout = 3,
         })
         return
@@ -1209,7 +1452,7 @@ function XRayPlugin:showChapterCharacters()
         title = string.format("📖 %s\n👥 %d %s", 
                              chapter_title or self.loc:t("this_chapter"), 
                              #found_chars,
-                             self.loc:getLanguage() == "tr" and "Karakter" or "Characters"),
+                             self.loc:t("chapter_chars_title")), 
         item_table = items,
         is_borderless = true,
         is_popout = false,
@@ -1226,7 +1469,7 @@ end
 function XRayPlugin:showCharacterNotes()
     if not self.characters or #self.characters == 0 then
         UIManager:show(InfoMessage:new{
-            text = self.loc:getLanguage() == "tr" and "Henüz karakter bilgisi yok.\n\nLütfen önce AI'dan veri çekin." or "No character data yet.\n\nPlease fetch AI data first.",
+            text = self.loc:t("no_char_data_fetch"), 
             timeout = 3,
         })
         return
@@ -1264,8 +1507,7 @@ function XRayPlugin:showCharacterNotes()
     end
     
     if notes_count > 0 then
-        table.insert(items, {
-            text = "────────────────",
+        table.insert(items, {            
             separator = true,
         })
     end
@@ -1531,7 +1773,7 @@ function XRayPlugin:showFullXRayMenu()
     self:addToMainMenu(menu_items)
     
     if menu_items.xray and menu_items.xray.sub_item_table then
-        local full_menu = Menu:new{
+        self.full_menu = Menu:new{
             title = self.loc:t("menu_xray"),
             item_table = menu_items.xray.sub_item_table,
             is_borderless = true,
@@ -1540,9 +1782,10 @@ function XRayPlugin:showFullXRayMenu()
             width = Screen:getWidth(),
             height = Screen:getHeight(),
         }
-        UIManager:show(full_menu)
+        UIManager:show(self.full_menu)
     end
 end
+
 
 function XRayPlugin:onShowXRayMenu()
     self:showQuickXRayMenu()

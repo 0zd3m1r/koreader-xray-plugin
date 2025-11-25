@@ -1,0 +1,522 @@
+msgid "menu_xray"
+msgstr "X-Ray"
+
+msgid "menu_characters"
+msgstr "Personagens"
+
+msgid "menu_chapter_characters"
+msgstr "Personagens neste Capítulo"
+
+msgid "menu_character_notes"
+msgstr "Notas de Personagem"
+
+msgid "menu_timeline"
+msgstr "Linha do Tempo"
+
+msgid "menu_historical_figures"
+msgstr "Figuras Históricas"
+
+msgid "menu_locations"
+msgstr "Locais"
+
+msgid "menu_author_info"
+msgstr "Informações do Autor"
+
+msgid "menu_summary"
+msgstr "Resumo"
+
+msgid "menu_themes"
+msgstr "Temas"
+
+msgid "menu_fetch_ai"
+msgstr "Buscar Dados da IA"
+
+msgid "menu_ai_settings"
+msgstr "Configurações da IA"
+
+msgid "menu_clear_cache"
+msgstr "Limpar Cache"
+
+msgid "menu_xray_mode"
+msgstr "Modo X-Ray:"
+
+msgid "menu_language"
+msgstr "Idioma"
+
+msgid "menu_about"
+msgstr "Sobre"
+
+msgid "menu_gemini_key"
+msgstr "Chave da API Google Gemini"
+
+msgid "menu_gemini_model"
+msgstr "Selecionar Modelo Gemini"
+
+msgid "menu_chatgpt_key"
+msgstr "Chave da API ChatGPT"
+
+msgid "menu_provider_select"
+msgstr "Selecionar Provedor de IA"
+
+msgid "gemini_model_title"
+msgstr "Selecionar Modelo Gemini"
+
+msgid "gemini_model_flash"
+msgstr "Mais Rápido + Grátis"
+
+msgid "gemini_model_pro"
+msgstr "Balanceado + Poderoso"
+
+msgid "gemini_model_flash_15"
+msgstr "Rápido + Eficiente"
+
+msgid "unknown_model"
+msgstr "Modelo desconhecido."
+
+msgid "model_selected"
+msgstr "Modelo selecionado"
+
+msgid "gemini_model_flash_info"
+msgstr "Modelo: Gemini 2.5 Flash\n\nModelo mais rápido e gratuito selecionado!\n\nRecursos:\n• Resposta ultrarrápida\n• Gratuito para usar"
+
+msgid "gemini_model_pro_info"
+msgstr "Modelo: Gemini 2.5 Pro\n\nModelo poderoso selecionado!\n\nRecursos:\n• Alta qualidade\n• Velocidade balanceada\n• Análise complexa"
+
+msgid "gemini_model_3_pro_info"
+msgstr "Modelo: Gemini 3 Pro\n\nModelo mais novo e mais poderoso selecionado!"
+
+msgid "xray_mode_active"
+msgstr "Ativo"
+
+msgid "xray_mode_inactive"
+msgstr "Inativo"
+
+msgid "events"
+msgstr "eventos"
+
+msgid "no_character_data"
+msgstr "Ainda não há dados de personagens. Use 'Buscar Dados da IA' primeiro."
+
+msgid "no_char_data_fetch"
+msgstr "Ainda não há informações de personagens.\n\nBusque dados da IA primeiro."
+
+msgid "no_location_data"
+msgstr "Ainda não há dados de locais. Use 'Buscar Dados da IA' primeiro."
+
+msgid "no_author_data"
+msgstr "Ainda não há informações do autor. Use 'Buscar Dados da IA' primeiro."
+
+msgid "no_summary_data"
+msgstr "Ainda não há resumo. Use 'Buscar Dados da IA' primeiro."
+
+msgid "no_theme_data"
+msgstr "Ainda não há temas. Use 'Buscar Dados da IA' primeiro."
+
+msgid "no_timeline_data"
+msgstr "Ainda não há dados da linha do tempo.\n\nUse 'Buscar Dados da IA' primeiro.\n\nA IA exibirá eventos importantes em ordem cronológica."
+
+msgid "no_historical_data"
+msgstr "Ainda não há dados de figuras históricas.\n\nUse 'Buscar Dados da IA' primeiro.\n\nA IA detectará figuras reais mencionadas no livro."
+
+msgid "xray_ready"
+msgstr "X-Ray pronto e ativo!"
+
+msgid "characters_loaded"
+msgstr "personagens"
+
+msgid "locations_loaded"
+msgstr "locais"
+
+msgid "themes_loaded"
+msgstr "temas"
+
+msgid "no_cache_found"
+msgstr "Cache não encontrado"
+
+msgid "checking_cache"
+msgstr "Carregado do cache!"
+
+msgid "cache_verify"
+msgstr "Já existem dados para este livro.\nSe quiser buscar novamente, limpe o cache primeiro.\n\nCaminho: Menu → X-Ray → Limpar Cache"
+
+msgid "cache_saved"
+msgstr "Salvo no cache!"
+
+msgid "cache_save_failed"
+msgstr "Falha ao salvar cache"
+
+msgid "cache_clear_confirm"
+msgstr "Confirmação de Limpar Cache\n\nSe você limpar o cache:\n\n• Todas as informações de personagens serão apagadas\n• A linha do tempo será apagada\n• Figuras históricas serão apagadas\n• Informações de locais e temas serão apagadas\n• Informações do autor serão apagadas\n\nVocê precisará buscar dados da IA novamente.\n\nTem certeza de que deseja limpar o cache?"
+
+msgid "yes_clear"
+msgstr "Sim, limpar"
+
+msgid "cancel"
+msgstr "Cancelar"
+
+msgid "cache_cleared"
+msgstr "Cache limpo!\n\nAgora você pode buscar novos dados:\nMenu → X-Ray → Buscar Dados da IA"
+
+msgid "cache_not_found"
+msgstr "Cache não encontrado ou não pôde ser limpo"
+
+msgid "character_name"
+msgstr "Personagem:"
+
+msgid "description"
+msgstr "Descrição:"
+
+msgid "role"
+msgstr "Função:"
+
+msgid "gender"
+msgstr "Gênero:"
+
+msgid "occupation"
+msgstr "Ocupação:"
+
+msgid "not_specified"
+msgstr "Não especificado"
+
+msgid "no_description"
+msgstr "Sem descrição"
+
+msgid "unnamed_character"
+msgstr "Personagem sem nome"
+
+msgid "unknown_character"
+msgstr "Personagem desconhecido"
+
+msgid "gender_male"
+msgstr "Masculino"
+
+msgid "gender_female"
+msgstr "Feminino"
+
+msgid "book_title"
+msgstr "Livro:"
+
+msgid "characters_count"
+msgstr "Personagens:"
+
+msgid "locations_count"
+msgstr "Locais:"
+
+msgid "themes_count"
+msgstr "Temas:"
+
+msgid "events_count"
+msgstr "Eventos:"
+
+msgid "historical_count"
+msgstr "Figuras Históricas:"
+
+msgid "cache_age"
+msgstr "Idade do cache:"
+
+msgid "days_old"
+msgstr "dias"
+
+msgid "unlimited_valid"
+msgstr "Válido indefinidamente!"
+
+msgid "fetch_new_data"
+msgstr "Para buscar novos dados:\nMenu → X-Ray → Limpar Cache"
+
+msgid "no_api_key"
+msgstr "Chave de API da IA não definida!\n\nInsira a chave em:\nMenu → X-Ray → Configurações da IA"
+
+msgid "fetching_ai"
+msgstr "Buscando dados da IA...\n\n"
+
+msgid "fetching_model"
+msgstr "Modelo: "
+
+msgid "fetching_wait"
+msgstr "⏳ Aguarde...\nEste processo pode levar de 10 a 30 segundos."
+
+msgid "dont_touch"
+msgstr "Não toque na tela."
+
+msgid "ai_fetch_failed"
+msgstr "Falha ao buscar dados da IA!\n\nPossíveis causas:\n• Chave de API inválida\n• Sem conexão com a internet\n• Limite da API excedido"
+
+msgid "ai_fetch_complete"
+msgstr ""
+"✅ Dados obtidos com sucesso de %s!\n"
+"\n"
+"%s\n"
+"Autor: %s\n"
+"\n"
+"%d personagens\n"
+"%d locais\n"
+"%d temas\n"
+"%d eventos\n"
+"%d figuras históricas\n"
+"\n"
+"%s"
+
+msgid "xray_mode_no_data"
+msgstr "Busque dados primeiro para usar o Modo X-Ray!\n\nMenu → X-Ray → Buscar Dados da IA"
+
+msgid "xray_mode_enabled"
+msgstr "Modo X-Ray Ativado!\n\nNota: A seleção de texto está temporariamente desativada.\n\nPara pesquisar personagens:\nMenu → X-Ray → Personagens → Pesquisar"
+
+msgid "xray_mode_disabled"
+msgstr "Modo X-Ray Desativado"
+
+msgid "search_character"
+msgstr "Pesquisar personagem..."
+
+msgid "search_character_title"
+msgstr "Pesquisar Personagem"
+
+msgid "search_hint"
+msgstr "Digite o nome (ex.: Stavrogin)"
+
+msgid "search_button"
+msgstr "Pesquisar"
+
+msgid "character_not_found"
+msgstr "Personagem não encontrado: %s\n\nDica: digite parte do nome"
+
+msgid "timeline_event"
+msgstr "Evento #%d"
+
+msgid "chapter"
+msgstr "Capítulo:"
+
+msgid "characters_involved"
+msgstr "Personagens:"
+
+msgid "importance"
+msgstr "Importância:"
+
+msgid "analyzing_chapter"
+msgstr "Analisando capítulo...\n\nAguarde"
+
+msgid "chapter_text_error"
+msgstr "Não foi possível obter o texto do capítulo"
+
+msgid "no_characters_in_chapter"
+msgstr "Nenhum personagem encontrado neste capítulo.\n\nCapítulo: %s"
+
+msgid "this_chapter"
+msgstr "Este Capítulo"
+
+msgid "chapter_chars_title"
+msgstr "Personagem"
+
+msgid "character_notes_title"
+msgstr "Notas de Personagem (%d notas)"
+
+msgid "add_note"
+msgstr "Adicionar nota"
+
+msgid "note_saved"
+msgstr "Nota salva!\n\n%s"
+
+msgid "note_deleted"
+msgstr "Nota apagada!\n\n%s"
+
+msgid "add_note_title"
+msgstr "Adicionar nota para %s"
+
+msgid "note_hint"
+msgstr "Sua nota sobre o personagem..."
+
+msgid "save"
+msgstr "Salvar"
+
+msgid "delete"
+msgstr "Excluir"
+
+msgid "quick_menu_title"
+msgstr "Acesso Rápido X-Ray"
+
+msgid "fetch_data"
+msgstr "Buscar Dados da IA"
+
+msgid "gemini_key_title"
+msgstr "Chave da API Google Gemini"
+
+msgid "gemini_key_hint"
+msgstr "Chave da API"
+
+msgid "gemini_key_desc"
+msgstr "Chave gratuita:\nhttps://makersuite.google.com/app/apikey\n\nOu edite config.lua:\ngemini_api_key = "AIzaSy...""
+
+msgid "testing_key"
+msgstr "Testando chave da API..."
+
+msgid "gemini_key_saved"
+msgstr "Chave da API Gemini salva com sucesso!\n\nTeste concluído!\n\nAgora você pode usar 'Buscar Dados da IA'."
+
+msgid "key_test_failed"
+msgstr "Chave salva, mas o teste falhou!\n\nErro: %s\n\nVerifique sua chave."
+
+msgid "chatgpt_key_title"
+msgstr "Chave da API ChatGPT"
+
+msgid "chatgpt_key_hint"
+msgstr "sk-..."
+
+msgid "chatgpt_key_desc"
+msgstr "Chave de API:\nhttps://platform.openai.com/api-keys\n\nOu edite config.lua:\nchatgpt_api_key = "sk-...""
+
+msgid "chatgpt_key_saved"
+msgstr "Chave da API ChatGPT salva!"
+
+msgid "provider_select_title"
+msgstr "Selecionar Provedor de IA"
+
+msgid "gemini_selected"
+msgstr "Google Gemini selecionado"
+
+msgid "chatgpt_selected"
+msgstr "ChatGPT selecionado"
+
+msgid "set_key_first"
+msgstr "Defina a chave da API primeiro"
+
+msgid "summary_title"
+msgstr "Resumo do Livro"
+
+msgid "themes_title"
+msgstr "Temas do Livro"
+
+msgid "hist_bio"
+msgstr "Biografia"
+
+msgid "hist_importance"
+msgstr "Importância no Livro"
+
+msgid "hist_context"
+msgstr "Contexto no Livro"
+
+msgid "about_title"
+msgstr "Plugin X-Ray"
+
+msgid "about_text"
+msgstr "https://github.com/0zd3m1r/koreader-xray-plugin"
+
+msgid "language_title"
+msgstr "Selecionar Idioma"
+
+msgid "language_turkish"
+msgstr "Turco"
+
+msgid "language_english"
+msgstr "Inglês"
+
+msgid "language_portugues"
+msgstr "Português"
+
+msgid "lang_changed_tr"
+msgstr "Idioma: Turco"
+
+msgid "lang_changed_en"
+msgstr "Idioma: Inglês"
+
+msgid "lang_changed_por"
+msgstr "Idioma: Português"
+
+msgid "language_changed"
+msgstr "Idioma alterado: Português"
+
+
+msgid "please_restart"
+msgstr "Por favor, feche e reabra o livro\npara que as mudanças tenham efeito."
+
+msgid "language_name"
+msgstr "Português (Brasil)"
+
+msgid "wifi_required"
+msgstr "Conexão à internet necessária!\n\nDeseja ativar o Wi-Fi para buscar dados da IA?"
+
+msgid "turn_on_wifi"
+msgstr "Ativar Wi-Fi"
+
+msgid "fetch_cancelled"
+msgstr "A busca foi cancelada."
+
+msgid "wifi_connecting"
+msgstr "Conectando ao Wi-Fi...\n\nAguarde."
+
+msgid "wifi_connected"
+msgstr "Conectado com sucesso!\n\nBuscando dados da IA..."
+
+msgid "error_503"
+msgstr "A API do Gemini está sobrecarregada!\n\nO modelo está recebendo muitas solicitações.\n\nTente novamente em alguns minutos.\n\nDica: experimente outro modelo:\ngemini_model = 'gemini-2.0-flash-exp'"
+
+msgid "error_429"
+msgstr "Solicitações demais!\n\nVocê atingiu o limite da API.\n\nAguarde alguns minutos e tente novamente."
+
+msgid "error_404"
+msgstr "Modelo não encontrado!\n\nO modelo selecionado não existe.\n\nAltere o modelo em config.lua:\ngemini_model = 'gemini-2.5-flash'"
+
+msgid "error_400"
+msgstr "Requisição inválida!\n\nVerifique sua chave de API ou configuração do modelo."
+
+msgid "ai_fallback_unnamed_character"
+msgstr "Personagem sem nome"
+
+msgid "ai_fallback_no_description"
+msgstr "Sem descrição"
+
+msgid "ai_fallback_not_specified"
+msgstr "Não especificado"
+
+msgid "ai_fallback_unnamed_location"
+msgstr "Local sem nome"
+
+msgid "ai_fallback_unnamed_person"
+msgstr "Pessoa sem nome"
+
+msgid "ai_fallback_no_biography"
+msgstr "Sem biografia"
+
+msgid "ai_fallback_chapter"
+msgstr "Capítulo"
+
+msgid "ai_fallback_no_event_description"
+msgstr "Sem descrição do evento"
+
+msgid "ai_fallback_unknown_book"
+msgstr "Livro desconhecido"
+
+msgid "ai_fallback_unknown_author"
+msgstr "Autor desconhecido"
+
+msgid "ok"
+msgstr "OK"
+
+msgid "menu_fetch_full"
+msgstr "📚 Buscar Dados da IA (Livro Completo)"
+
+msgid "menu_fetch_progress"
+msgstr "📖 Até a Página Atual (Sem spoilers)"
+
+msgid "progress_warning_low"
+msgstr "📖 Você avançou pouco (%%%d)\n\nDeseja continuar mesmo assim?"
+
+msgid "progress_error"
+msgstr "⚠️ Não foi possível obter o progresso de leitura!\n\nAnalisar o livro completo?"
+
+msgid "error_info"
+msgstr "❌ Ocorreu um erro!"
+
+msgid "error_no_network"
+msgstr "📡 Sem conexão com a internet!\n\nVerifique seu Wi-Fi."
+
+msgid "error_network_timeout"
+msgstr "⏱️ Conexão expirou!\n\nVerifique sua internet e tente novamente."
+
+msgid "error_invalid_api_key"
+msgstr "🔑 Chave de API inválida!\n\nVerifique sua chave."
+
+msgid "error_unknown"
+msgstr "❌ Erro desconhecido!\n\nTente novamente."
+
+msgid "error_filtered"
+msgstr "Conteúdo filtrado."

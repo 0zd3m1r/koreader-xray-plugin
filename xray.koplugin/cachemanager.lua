@@ -22,7 +22,31 @@ function CacheManager:getCachePath(book_path)
     local cache_dir = DocSettings:getSidecarDir(book_path)
     local cache_file = cache_dir .. "/xray_cache.lua"
     
+    logger.info("CacheManager: Cache path:", cache_file)
     return cache_file
+end
+
+-- Ensure directory exists
+function CacheManager:ensureDirectory(path)
+    local dir = path:match("(.+)/[^/]+$")
+    if not dir then
+        return false
+    end
+    
+    local attr = lfs.attributes(dir)
+    if attr and attr.mode == "directory" then
+        return true
+    end
+    
+    logger.info("CacheManager: Creating directory:", dir)
+    local success, err = lfs.mkdir(dir)
+    
+    if not success then
+        logger.warn("CacheManager: Failed to create directory:", err or "unknown error")
+        return false
+    end
+    
+    return true
 end
 
 -- Save book data to cache
@@ -38,24 +62,47 @@ function CacheManager:saveCache(book_path, data)
         return false
     end
     
+    -- Ensure directory exists
+    if not self:ensureDirectory(cache_file) then
+        logger.warn("CacheManager: Cannot create cache directory")
+        return false
+    end
+    
     -- Add timestamp
     data.cached_at = os.time()
     data.cache_version = "6.0"
     
     -- Serialize data
-    local success = pcall(function()
-        local f = io.open(cache_file, "w")
-        if f then
-            f:write("-- X-Ray Cache v6.0\n")
-            f:write("return " .. self:serialize(data))
-            f:close()
-            logger.info("CacheManager: Saved cache to:", cache_file)
-            return true
-        else
+    local success, err = pcall(function()
+        local f, open_err = io.open(cache_file, "w")
+        
+        if not f then
             logger.warn("CacheManager: Cannot open file for writing:", cache_file)
+            logger.warn("CacheManager: Error:", open_err or "unknown")
             return false
         end
+        
+        local serialized_data = self:serialize(data)
+        
+        if not serialized_data then
+            logger.warn("CacheManager: Failed to serialize data")
+            f:close()
+            return false
+        end
+        
+        f:write("-- X-Ray Cache v6.0\n")
+        f:write("-- Generated: " .. os.date("%Y-%m-%d %H:%M:%S") .. "\n\n")
+        f:write("return " .. serialized_data)
+        f:close()
+        
+        logger.info("CacheManager: Saved cache to:", cache_file)
+        return true
     end)
+    
+    if not success then
+        logger.warn("CacheManager: Failed to save cache:", err or "unknown error")
+        return false
+    end
     
     return success
 end
@@ -85,7 +132,7 @@ function CacheManager:loadCache(book_path)
     end)
     
     if not success or not data then
-        logger.warn("CacheManager: Failed to load cache")
+        logger.warn("CacheManager: Failed to load cache:", data or "unknown error")
         return nil
     end
     
@@ -107,21 +154,37 @@ function CacheManager:loadCache(book_path)
     return data
 end
 
--- Serialize Lua table to string
-function CacheManager:serialize(obj, indent)
+-- Serialize Lua table to string (with better error handling)
+function CacheManager:serialize(obj, indent, seen)
     indent = indent or ""
+    seen = seen or {}
+    
     local t = type(obj)
     
     if t == "table" then
+        -- Prevent infinite recursion
+        if seen[obj] then
+            return "{--[[circular reference]]}"
+        end
+        seen[obj] = true
+        
         local s = "{\n"
         for k, v in pairs(obj) do
-            s = s .. indent .. "  "
-            if type(k) == "string" then
-                s = s .. "[" .. string.format("%q", k) .. "] = "
-            else
-                s = s .. "[" .. k .. "] = "
+            -- Skip functions and userdata
+            if type(v) ~= "function" and type(v) ~= "userdata" and type(v) ~= "thread" then
+                s = s .. indent .. "  "
+                if type(k) == "string" then
+                    -- Check if key needs escaping
+                    if k:match("^[%a_][%w_]*$") then
+                        s = s .. k .. " = "
+                    else
+                        s = s .. "[" .. string.format("%q", k) .. "] = "
+                    end
+                else
+                    s = s .. "[" .. tostring(k) .. "] = "
+                end
+                s = s .. self:serialize(v, indent .. "  ", seen) .. ",\n"
             end
-            s = s .. self:serialize(v, indent .. "  ") .. ",\n"
         end
         s = s .. indent .. "}"
         return s
@@ -129,7 +192,10 @@ function CacheManager:serialize(obj, indent)
         return string.format("%q", obj)
     elseif t == "number" or t == "boolean" then
         return tostring(obj)
+    elseif t == "nil" then
+        return "nil"
     else
+        -- Skip functions, userdata, threads
         return "nil"
     end
 end
@@ -138,9 +204,14 @@ end
 function CacheManager:clearCache(book_path)
     local cache_file = self:getCachePath(book_path)
     if cache_file then
-        os.remove(cache_file)
-        logger.info("CacheManager: Cleared cache:", cache_file)
-        return true
+        local success, err = os.remove(cache_file)
+        if success then
+            logger.info("CacheManager: Cleared cache:", cache_file)
+            return true
+        else
+            logger.warn("CacheManager: Failed to clear cache:", err or "unknown")
+            return false
+        end
     end
     return false
 end
