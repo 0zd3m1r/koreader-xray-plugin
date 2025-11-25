@@ -2,7 +2,7 @@
 
 Transform your reading experience with AI-powered book analysis, just like Amazon Kindle X-Ray!
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-KOReader-green.svg)
 ![License](https://img.shields.io/badge/license-MIT-yellow.svg)
 
@@ -10,16 +10,25 @@ Transform your reading experience with AI-powered book analysis, just like Amazo
 
 ## 🎯 What is X-Ray Plugin?
 
-X-Ray Plugin brings Amazon Kindle's beloved X-Ray feature to KOReader. Using advanced AI technology (Google Gemini or ChatGPT), it automatically extracts and organizes:
+X-Ray Plugin brings Amazon Kindle's beloved X-Ray feature to KOReader. Using advanced AI technology (Google Gemini or ChatGPT), it automatically extracts and organizes content while ensuring a spoiler-free experience:
 
-- 👥 **Characters** - Names, descriptions, roles, occupations
-- 📍 **Locations** - Important places and their significance
-- ⏱️ **Timeline** - Key events in chronological order
-- 📜 **Historical Figures** - Real people mentioned in the book
-- 🎨 **Themes** - Main themes and ideas
-- 📝 **Notes** - Your personal character notes
+    👥 Characters - Names, descriptions, roles, occupations
 
-All data is **cached locally** for offline use and works **without internet** after the initial fetch!
+    📍 Locations - Important places and their significance
+
+    🛡️ Spoiler Free - Intelligent summaries that avoid revealing major plot twists
+
+    ⏱️ Timeline - Key events in chronological order
+
+    📜 Historical Figures - Real people mentioned in the book
+
+    🎨 Themes - Main themes and ideas
+
+    📝 Notes - Your personal character notes
+
+All data is cached locally for offline use and works without internet after the initial fetch!
+
+
 
 ---
 
