@@ -1,4 +1,4 @@
-# 📖 X-Ray Plugin for KOReader v1.0.0
+# 📖 X-Ray Plugin for KOReader v1.1.0
 
 Transform your reading experience with AI-powered book analysis, just like Amazon Kindle X-Ray!
 
@@ -319,18 +319,20 @@ Examples:
 ### Interface Languages
 - 🇹🇷 **Turkish** (Türkçe)
 - 🇬🇧 **English**
+- 🇵🇹 **Brazilian Português**
 
 ### AI Data Languages
 AI automatically provides data in the selected interface language:
 - Turkish interface → AI responses in Turkish
 - English interface → AI responses in English
+- Brazilian Português interface → AI responses in Português
 
 ### Adding New Languages
 
-1. Edit `localization.lua`
+1. Edit `main.lua`
 2. Add new language code (e.g., `de` for German)
-3. Translate all strings in `translations.de = { ... }`
-4. Add prompt templates in `aihelper.lua`
+3. Translate all strings in `de.po = { ... }`
+4. Add prompt templates in `de.lua`
 5. Done! 🎉
 
 ---
@@ -496,8 +498,6 @@ MIT License - See LICENSE file for details
 ## 📮 Support
 
 - **GitHub Issues**: Report bugs and request features
-- **KOReader Forum**: General discussions
-- **Reddit**: /koreader
 ---
 
 ## 🌟 Star History
