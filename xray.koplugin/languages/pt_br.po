@@ -452,6 +452,9 @@ msgstr "Português (Brasil)"
 msgid "wifi_required"
 msgstr "Conexão à internet necessária!\n\nDeseja ativar o Wi-Fi para buscar dados da IA?"
 
+msgid "network_offline_prompt"
+msgstr "Conexão à internet necessária!\n\nDeseja ativar o Wi-Fi para buscar dados da IA?"
+
 msgid "turn_on_wifi"
 msgstr "Ativar Wi-Fi"
 
@@ -537,5 +540,19 @@ msgid "error_unknown"
 msgstr "❌ Erro desconhecido!\n\nTente novamente."
 
 msgid "error_filtered"
-
 msgstr "Conteúdo filtrado."
+
+msgid "spoiler_preference_title"
+msgstr "Preferência de Spoiler"
+
+msgid "spoiler_free_option"
+msgstr "🔒 Modo Sem Spoiler (Apenas até %%%d)"
+
+msgid "full_book_option"
+msgstr "📖 Livro Completo (Todo o conteúdo)"
+
+msgid "spoiler_free_mode"
+msgstr "🔒 Modo Sem Spoiler: %%%d"
+
+msgid "full_book_mode_active"
+msgstr "📖 Modo Livro Completo"

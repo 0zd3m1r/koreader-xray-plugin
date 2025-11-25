@@ -1,4 +1,4 @@
--- X-Ray Plugin for KOReader v1.0.0
+-- X-Ray Plugin for KOReader v2.0.0
 
 local UIManager = require("ui/uimanager")
 local InfoMessage = require("ui/widget/infomessage")
@@ -598,7 +598,7 @@ end
 function XRayPlugin:fetchFromAI()
     logger.info("XRayPlugin: Fetching AI data")
     
-    -- 1. WİRELESS KONTROL (YENİ EKLENEN)
+    -- 1. WİRELESS KONTROL
     local NetworkMgr = require("ui/network/manager")
     
     if not NetworkMgr:isOnline() then
@@ -608,7 +608,7 @@ function XRayPlugin:fetchFromAI()
         local ConfirmBox = require("ui/widget/confirmbox")
         
         UIManager:show(ConfirmBox:new{
-            text = self.loc:t("wifi_required"),
+            text = self.loc:t("network_offline_prompt"),
             ok_text = self.loc:t("turn_on_wifi"),
             cancel_text = self.loc:t("cancel"),
             ok_callback = function()
@@ -617,8 +617,8 @@ function XRayPlugin:fetchFromAI()
                 -- WiFi'yi aç
                 NetworkMgr:turnOnWifi(function()
                     logger.info("XRayPlugin: WiFi turned on, proceeding with fetch")
-                    -- WiFi açıldıktan sonra fetch işlemini başlat
-                    self:continueWithFetch()
+                    -- WiFi açıldıktan sonra spoiler tercihini sor
+                    self:askSpoilerPreference()
                 end)
             end,
             cancel_callback = function()
@@ -633,12 +633,69 @@ function XRayPlugin:fetchFromAI()
         return
     end
     
-    -- WiFi zaten açıksa direkt devam et
-    self:continueWithFetch()
+    -- WiFi zaten açıksa spoiler tercihini sor
+    self:askSpoilerPreference()
 end
 
-function XRayPlugin:continueWithFetch()
-    logger.info("XRayPlugin: Continuing with fetch process")
+function XRayPlugin:askSpoilerPreference()
+    logger.info("XRayPlugin: Asking spoiler preference")
+    
+    local UIManager = require("ui/uimanager")
+    local Menu = require("ui/widget/menu")
+    local Screen = require("device").screen
+    
+    -- Okuma yüzdesini hesapla
+    local current_page = self.ui:getCurrentPage()
+    local total_pages = self.ui.document:getPageCount()
+    local reading_percent = math.floor((current_page / total_pages) * 100)
+    
+    local spoiler_menu = Menu:new{
+        title = self.loc:t("spoiler_preference_title"),
+        item_table = {
+            {
+                text = string.format(
+                    self.loc:t("spoiler_free_option"),
+                    reading_percent
+                ),
+                callback = function()
+                    logger.info("XRayPlugin: User chose spoiler-free mode")
+                    UIManager:close(spoiler_menu)
+                    self:continueWithFetch(reading_percent)
+                end,
+            },
+            {
+                text = self.loc:t("full_book_option"),
+                callback = function()
+                    logger.info("XRayPlugin: User chose full book mode")
+                    UIManager:close(spoiler_menu)
+                    self:continueWithFetch(100)
+                end,
+            },
+            {
+                text = self.loc:t("cancel"),
+                callback = function()
+                    logger.info("XRayPlugin: User cancelled fetch")
+                    UIManager:close(spoiler_menu)
+                    local InfoMessage = require("ui/widget/infomessage")
+                    UIManager:show(InfoMessage:new{
+                        text = self.loc:t("fetch_cancelled"),
+                        timeout = 3,
+                    })
+                end,
+            },
+        },
+        is_borderless = true,
+        is_popout = false,
+        title_bar_fm_style = true,
+        width = Screen:getWidth(),
+        height = Screen:getHeight(),
+    }
+    
+    UIManager:show(spoiler_menu)
+end
+
+function XRayPlugin:continueWithFetch(reading_percent)
+    logger.info("XRayPlugin: Continuing with fetch process (reading_percent:", reading_percent, ")")
     
     -- 1. Cache Manager Başlat (Kontrol için gerekli)
     if not self.cache_manager then
@@ -684,17 +741,24 @@ function XRayPlugin:continueWithFetch()
     -- Provider adını al
     local provider_name = provider_config and provider_config.name or "AI"
     
+    -- Spoiler durumunu hazırla
+    local spoiler_status = reading_percent < 100 and 
+        string.format(self.loc:t("spoiler_free_mode"), reading_percent) or 
+        self.loc:t("full_book_mode_active")
+    
     -- 4. Bekleme Mesajı Göster
     local InfoMessage = require("ui/widget/infomessage")
     local wait_msg = InfoMessage:new{
         text = string.format(
             self.loc:t("fetching_ai") ..
             self.loc:t("fetching_model") .. "%s\n" ..
-            self.loc:t("book_title") .. "%s\n\n" ..
+            self.loc:t("book_title") .. "%s\n" ..
+            "%s\n\n" ..
             self.loc:t("fetching_wait") ..
             self.loc:t("dont_touch"), 
             current_model,
-            title
+            title,
+            spoiler_status
         ),
         timeout = 60,
     }
@@ -702,8 +766,13 @@ function XRayPlugin:continueWithFetch()
     
     -- 5. İşlemi Başlat
     UIManager:scheduleIn(1.0, function()
-        -- Seçili provider'ı kullan
-        local book_data, error_code, error_msg = self.ai_helper:getBookData(title, author, selected_provider, nil)
+        -- Seçili provider'ı kullan (reading_percent context olarak gönderiliyor)
+        local context = {
+            reading_percent = reading_percent,
+            spoiler_free = reading_percent < 100
+        }
+        
+        local book_data, error_code, error_msg = self.ai_helper:getBookData(title, author, selected_provider, context)
         
         if wait_msg then UIManager:close(wait_msg) end
         
@@ -1107,15 +1176,17 @@ end
 function XRayPlugin:selectAIProvider()
     if not self.ai_helper then
         local AIHelper = require("aihelper")
-        self.ai_helper = AIHelper  -- Modül referansını tut
+        self.ai_helper = AIHelper
         self.ai_helper:init()
     end
     
-    -- ai_helper artık doğru şekilde başlatıldı, default_provider'ı kullan
     if not self.ai_provider and self.ai_helper.default_provider then
         self.ai_provider = self.ai_helper.default_provider
     end
     
+    -- 1. ADIM: Değişkeni burada önceden tanımlıyoruz (henüz boş)
+    local provider_menu 
+
     local providers = {}
     
     local gemini_key = self.ai_helper.providers.gemini and self.ai_helper.providers.gemini.api_key
@@ -1129,9 +1200,11 @@ function XRayPlugin:selectAIProvider()
                     text = self.loc:t("gemini_selected"), 
                     timeout = 2,
                 })
-                -- Menüyü kapat ve yeniden aç
-                UIManager:close(provider_menu)
-                self:selectAIProvider()
+                
+                -- 3. ADIM: Artık provider_menu dolu olduğu için bu satır çalışır
+                if provider_menu then
+                    UIManager:close(provider_menu)
+                end
             end,
         })
     else
@@ -1157,9 +1230,11 @@ function XRayPlugin:selectAIProvider()
                     text = self.loc:t("chatgpt_selected"), 
                     timeout = 2,
                 })
-                -- Menüyü kapat ve yeniden aç
-                UIManager:close(provider_menu)
-                self:selectAIProvider()
+                
+                -- 3. ADIM: Burada da menüyü kapatıyoruz
+                if provider_menu then
+                    UIManager:close(provider_menu)
+                end
             end,
         })
     else
@@ -1174,7 +1249,8 @@ function XRayPlugin:selectAIProvider()
         })
     end
     
-    local provider_menu = Menu:new{
+    -- 2. ADIM: Daha önce tanımladığımız değişkene atama yapıyoruz (başındaki 'local' ifadesini kaldırdık)
+    provider_menu = Menu:new{
         title = self.loc:t("provider_select_title"), 
         item_table = providers,
         is_borderless = true,

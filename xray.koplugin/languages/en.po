@@ -694,6 +694,9 @@ msgstr "English"
 msgid "wifi_required"
 msgstr "Internet connection required!\n\nDo you want to turn on Wi-Fi to fetch AI data?"
 
+msgid "network_offline_prompt"
+msgstr "Internet connection required!\n\nDo you want to turn on Wi-Fi to fetch AI data?"
+
 msgid "turn_on_wifi"
 msgstr "Turn on Wi-Fi"
 
@@ -780,3 +783,18 @@ msgstr "❌ Unknown error!\n\nPlease try again."
 
 msgid "error_filtered"
 msgstr "Content was filtered."
+
+msgid "spoiler_preference_title"
+msgstr "Spoiler Preference"
+
+msgid "spoiler_free_option"
+msgstr "🔒 Spoiler-free Mode (Up to %%%d of the book's)"
+
+msgid "full_book_option"
+msgstr "📖 Full Mode"
+
+msgid "spoiler_free_mode"
+msgstr "🔒 Spoiler-free Mode: %%%d"
+
+msgid "full_book_mode_active"
+msgstr "📖 Full Mode"

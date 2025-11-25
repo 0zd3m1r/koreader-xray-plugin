@@ -1,4 +1,4 @@
--- AIHelper - Google Gemini & ChatGPT for X-Ray (FIXED: Crash Protection & Safety Bypass)
+-- AIHelper - Google Gemini & ChatGPT for X-Ray
 local http = require("socket.http")
 local https = require("ssl.https")
 local ltn12 = require("ltn12")
@@ -20,7 +20,7 @@ AIHelper.providers = {
         enabled = true,
         api_key = nil,
         endpoint = "https://api.openai.com/v1/chat/completions",
-        model = "gpt-4o-mini", 
+        model = "gpt-4o-mini", -- Varsayılan model (uygun maliyet/performans)
     }
 }
 
@@ -42,7 +42,7 @@ function AIHelper:setChatGPTModel(model_name)
     return true
 end
 
--- Set default provider (YENI FONKSIYON)
+-- Set default provider 
 function AIHelper:setDefaultProvider(provider_name)
     if not provider_name or (provider_name ~= "gemini" and provider_name ~= "chatgpt") then 
         return false 
@@ -51,26 +51,6 @@ function AIHelper:setDefaultProvider(provider_name)
     self:saveProviderToConfig(provider_name)
     logger.info("AIHelper: Default provider changed to:", provider_name)
     return true
-end
-
--- Save provider preference to config file (YENI FONKSIYON)
-function AIHelper:saveProviderToConfig(provider_name)
-    local DataStorage = require("datastorage")
-    local settings_dir = DataStorage:getSettingsDir()
-    local xray_dir = settings_dir .. "/xray"
-    local lfs = require("libs/libkoreader-lfs")
-    lfs.mkdir(xray_dir)
-    
-    local provider_file = xray_dir .. "/default_provider.txt"
-    local file = io.open(provider_file, "w")
-    if file then
-        file:write(provider_name)
-        file:close()
-        logger.info("AIHelper: Saved default provider:", provider_name)
-        return true
-    end
-    logger.warn("AIHelper: Failed to save provider preference")
-    return false
 end
 
 -- Save model preference to config file
@@ -89,6 +69,26 @@ function AIHelper:saveModelToConfig(model_name, provider)
         file:close()
         return true
     end
+    return false
+end
+
+-- Save provider preference to config file 
+function AIHelper:saveProviderToConfig(provider_name)
+    local DataStorage = require("datastorage")
+    local settings_dir = DataStorage:getSettingsDir()
+    local xray_dir = settings_dir .. "/xray"
+    local lfs = require("libs/libkoreader-lfs")
+    lfs.mkdir(xray_dir)
+    
+    local provider_file = xray_dir .. "/default_provider.txt"
+    local file = io.open(provider_file, "w")
+    if file then
+        file:write(provider_name)
+        file:close()
+        logger.info("AIHelper: Saved default provider:", provider_name)
+        return true
+    end
+    logger.warn("AIHelper: Failed to save provider preference")
     return false
 end
 
@@ -114,7 +114,7 @@ function AIHelper:loadConfig()
     end
 end
 
---- Load model preference
+-- Load model preference
 function AIHelper:loadModelFromFile()
     local DataStorage = require("datastorage")
     
@@ -140,7 +140,7 @@ function AIHelper:loadModelFromFile()
         end
     end
     
-    -- Default provider (YENI EKLEME)
+    -- Default provider (YENI)
     local provider_file = DataStorage:getSettingsDir() .. "/xray/default_provider.txt"
     file = io.open(provider_file, "r")
     if file then
@@ -163,7 +163,13 @@ function AIHelper:getBookData(title, author, provider_name, context)
         return nil, "error_no_api_key"
     end
     
-    local prompt = self:createPrompt(title, author, provider_config.model, context)
+    -- Context ile prompt oluştur
+    local prompt = self:createPrompt(title, author, context)
+    
+    logger.info("AIHelper: Using provider:", provider, "Model:", provider_config.model)
+    if context and context.spoiler_free then
+        logger.info("AIHelper: Spoiler-free mode active, reading:", context.reading_percent, "%")
+    end
     
     if provider == "gemini" then
         return self:callGemini(prompt, provider_config)
@@ -205,10 +211,19 @@ function AIHelper:loadPrompts()
 end
 
 -- Create prompt
-function AIHelper:createPrompt(title, author, model_name)
+function AIHelper:createPrompt(title, author, context)
     if not self.prompts then self:loadLanguage() end
-    local template = self.prompts.main -- Her zaman güçlü prompt kullan
-    return string.format(template, title, author or "Bilinmiyor")
+    
+    -- Context varsa ve spoiler_free modundaysa özel prompt kullan
+    if context and context.spoiler_free then
+        local template = self.prompts.spoiler_free or self.prompts.main
+        -- Artık sadece 3 parametre: title, author, percent
+        return string.format(template, title, author or "Bilinmiyor", context.reading_percent)
+    else
+        -- Tam kitap için normal prompt
+        local template = self.prompts.main
+        return string.format(template, title, author or "Bilinmiyor")
+    end
 end
 
 function AIHelper:getFallbackStrings()

@@ -694,6 +694,9 @@ msgstr "Türkçe"
 msgid "wifi_required"
 msgstr "İnternet bağlantısı gerekli!\n\nAI verilerini çekmek için kablosuz ağı açmak ister misiniz?"
 
+msgid "network_offline_prompt"
+msgstr "İnternet bağlantısı gerekli!\n\nAI verilerini çekmek için kablosuz ağı açmak ister misiniz?"
+
 msgid "turn_on_wifi"
 msgstr "Kablosuz Ağı Aç"
 
@@ -780,3 +783,18 @@ msgstr "❌ Bilinmeyen hata!\n\nLütfen tekrar deneyin."
 
 msgid "error_filtered"
 msgstr "İçerik filtreye takıldı."
+
+msgid "spoiler_preference_title"
+msgstr "Spoiler Tercih"
+
+msgid "spoiler_free_option"
+msgstr "🔒 Spoiler'sız Mod (Sadece %%%d'e kadar)"
+
+msgid "full_book_option"
+msgstr "📖 Tam Kitap (Tüm içerik)"
+
+msgid "spoiler_free_mode"
+msgstr "🔒 Spoiler'sız Mod: %%%d"
+
+msgid "full_book_mode_active"
+msgstr "📖 Tam Kitap Modu"
