@@ -115,6 +115,7 @@ cp -r xray.koplugin ~/.config/koreader/plugins/
 
 - **Alt + X**: Quick X-Ray menu
 - **Menu → X-Ray**: Full menu with all features
+- **Gestures → X-Ray & All features**
 
 ### Main Features
 
@@ -481,7 +482,7 @@ Contributions are welcome! Here's how:
 5. Submit pull request
 
 ### Translations
-1. Copy `localization.lua`
+1. Copy Translations\ `en.lua` and `en.po`
 2. Add your language code
 3. Translate all strings
 4. Submit pull request
@@ -497,9 +498,7 @@ MIT License - See LICENSE file for details
 ## 🙏 Acknowledgments
 
 - **KOReader Team** - For the amazing e-reader platform
-- **Google Gemini Team** - For the free and powerful AI API
-- **OpenAI** - For ChatGPT API
-- **Beta Testers** - For valuable feedback
+- **Testers** - For valuable feedback
 - **You** - For using X-Ray Plugin! 📖✨
 
 ---
