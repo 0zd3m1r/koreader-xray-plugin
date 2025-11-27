@@ -404,34 +404,34 @@ msgstr "AI ile Veri Çek"
 # ==============================
 
 msgid "gemini_key_title"
-msgstr "Google Gemini API Key"
+msgstr "Google Gemini API anahtarı"
 
 msgid "gemini_key_hint"
-msgstr "API key"
+msgstr "API anahtarı"
 
 msgid "gemini_key_desc"
-msgstr "Free API key:\nhttps://makersuite.google.com/app/apikey\n\nOr edit config.lua:\ngemini_api_key = \"AIzaSy...\""
+msgstr "Ücretsiz API anahtarı:\nhttps://makersuite.google.com/app/apikey\n\nveya config.lua'yı düzenle:\ngemini_api_key = \"AIzaSy...\""
 
 msgid "testing_key"
-msgstr "Testing API key..."
+msgstr "API anahtarı test ediliyor..."
 
 msgid "gemini_key_saved"
-msgstr "Gemini API Key saved successfully!\n\nTest passed!\n\nYou can now use 'Fetch AI Data'."
+msgstr "Gemini API anahtarı kaydedildi!."
 
 msgid "key_test_failed"
-msgstr "API Key saved but test failed!\n\nError: %s\n\nPlease check your API key."
+msgstr "API anahtarı kaydedildi, ancak test başarısız!\n\nHata: %s\n\nLütfen API anahtarını kontrol et."
 
 msgid "chatgpt_key_title"
-msgstr "ChatGPT API Key"
+msgstr "ChatGPT API anahtarı"
 
 msgid "chatgpt_key_hint"
 msgstr "sk-..."
 
 msgid "chatgpt_key_desc"
-msgstr "API key:\nhttps://platform.openai.com/api-keys\n\nOr edit config.lua:\nchatgpt_api_key = \"sk-...\""
+msgstr "API key:\nhttps://platform.openai.com/api-keys\n\nveya config.lua'yı düzenle:\nchatgpt_api_key = \"sk-...\""
 
 msgid "chatgpt_key_saved"
-msgstr "ChatGPT API Key saved!"
+msgstr "ChatGPT API anahtarı kaydedildi!"
 
 # ==============================
 # PROVIDER SELECTION
