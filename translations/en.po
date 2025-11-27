@@ -1,0 +1,782 @@
+# ==============================
+# MENU ITEMS
+# ==============================
+
+msgid "menu_xray"
+msgstr "X-Ray"
+
+msgid "menu_characters"
+msgstr "Characters"
+
+msgid "menu_chapter_characters"
+msgstr "Characters in this Chapter"
+
+msgid "menu_character_notes"
+msgstr "My Character Notes"
+
+msgid "menu_timeline"
+msgstr "Timeline"
+
+msgid "menu_historical_figures"
+msgstr "Historical Figures"
+
+msgid "menu_locations"
+msgstr "Locations"
+
+msgid "menu_author_info"
+msgstr "Author Info"
+
+msgid "menu_summary"
+msgstr "Summary"
+
+msgid "menu_themes"
+msgstr "Themes"
+
+msgid "menu_fetch_ai"
+msgstr "Fetch AI Data"
+
+msgid "menu_ai_settings"
+msgstr "AI Settings"
+
+msgid "menu_clear_cache"
+msgstr "Clear Cache"
+
+msgid "menu_xray_mode"
+msgstr "X-Ray Mode:"
+
+msgid "menu_language"
+msgstr "Language"
+
+msgid "menu_about"
+msgstr "About"
+
+# ==============================
+# AI SETTINGS & PROVIDERS
+# ==============================
+
+msgid "menu_gemini_key"
+msgstr "Google Gemini API Key"
+
+msgid "menu_gemini_model"
+msgstr "Select Gemini Model"
+
+msgid "menu_chatgpt_key"
+msgstr "ChatGPT API Key"
+
+msgid "menu_provider_select"
+msgstr "Select AI Provider"
+
+msgid "gemini_model_title"
+msgstr "Select Gemini Model"
+
+msgid "gemini_model_flash"
+msgstr "Fastest + Free"
+
+msgid "gemini_model_pro"
+msgstr "Balanced + Powerful"
+
+msgid "gemini_model_flash_15"
+msgstr "Fast + Efficient"
+
+msgid "unknown_model"
+msgstr "Unknown model."
+
+msgid "model_selected"
+msgstr "Model selected"
+
+msgid "gemini_model_flash_info"
+msgstr "Model: Gemini 2.5 Flash\n\nFastest and free model selected!\n\nFeatures:\n• Ultra fast response\n• Free to use"
+
+msgid "gemini_model_pro_info"
+msgstr "Model: Gemini 2.5 Pro\n\nPowerful model selected!\n\nFeatures:\n• High quality\n• Balanced speed\n• Complex analysis"
+
+msgid "gemini_model_3_pro_info"
+msgstr "Model: Gemini 3 Pro\n\nNewest and most powerful model selected!"
+
+# ==============================
+# STATUS MESSAGES
+# ==============================
+
+msgid "xray_mode_active"
+msgstr "Active"
+
+msgid "xray_mode_inactive"
+msgstr "Inactive"
+
+msgid "events"
+msgstr "events"
+
+# ==============================
+# INFO MESSAGES
+# ==============================
+
+msgid "no_character_data"
+msgstr "No character data yet. Please use 'Fetch AI Data' first."
+
+msgid "no_char_data_fetch"
+msgstr "No character info yet.\n\nPlease fetch data from AI first."
+
+msgid "no_location_data"
+msgstr "No location data yet. Please use 'Fetch AI Data' first."
+
+msgid "no_author_data"
+msgstr "No author info yet. Please use 'Fetch AI Data' first."
+
+msgid "no_summary_data"
+msgstr "No summary data yet. Please use 'Fetch AI Data' first."
+
+msgid "no_theme_data"
+msgstr "No theme data yet. Please use 'Fetch AI Data' first."
+
+msgid "no_timeline_data"
+msgstr "No timeline data yet.\n\nPlease use 'Fetch AI Data' first.\n\nAI will show key events in\nchronological order."
+
+msgid "no_historical_data"
+msgstr "No historical figure data yet.\n\nPlease use 'Fetch AI Data' first.\n\nAI will detect real historical\nfigures mentioned in the book."
+
+# ==============================
+# AUTO-LOAD & CACHE
+# ==============================
+
+msgid "xray_ready"
+msgstr "X-Ray ready and active!"
+
+msgid "characters_loaded"
+msgstr "characters"
+
+msgid "locations_loaded"
+msgstr "locations"
+
+msgid "themes_loaded"
+msgstr "themes"
+
+msgid "no_cache_found"
+msgstr "Cache not found"
+
+msgid "checking_cache"
+msgstr "Loaded from cache!"
+
+msgid "cache_verify"
+msgstr "Data already exists for this book.\nIf you want to re-fetch, you must clear it first.\n\nPath: Menu → X-Ray → Clear Cache"
+
+msgid "cache_saved"
+msgstr "Saved to cache!"
+
+msgid "cache_save_failed"
+msgstr "Failed to save cache"
+
+msgid "cache_clear_confirm"
+msgstr "Clear Cache Confirmation\n\nIf you clear the cache:\n\n• All character info will be deleted\n• Timeline will be deleted\n• Historical figures will be deleted\n• Location and theme info will be deleted\n• Author info will be deleted\n\nYou will need to fetch data from AI again.\n\nAre you sure you want to clear the cache?"
+
+msgid "yes_clear"
+msgstr "Yes, Clear"
+
+msgid "cancel"
+msgstr "Cancel"
+
+msgid "cache_cleared"
+msgstr "Cache cleared!\n\nYou can now fetch new data:\nMenu → X-Ray → Fetch AI Data"
+
+msgid "cache_not_found"
+msgstr "Cache not found or could not be cleared"
+
+# ==============================
+# CHARACTER DETAILS
+# ==============================
+
+msgid "character_name"
+msgstr "Character:"
+
+msgid "description"
+msgstr "Description:"
+
+msgid "role"
+msgstr "Role:"
+
+msgid "gender"
+msgstr "Gender:"
+
+msgid "occupation"
+msgstr "Occupation:"
+
+msgid "not_specified"
+msgstr "Not specified"
+
+msgid "no_description"
+msgstr "No description"
+
+msgid "unnamed_character"
+msgstr "Unnamed Character"
+
+msgid "unknown_character"
+msgstr "Unknown Character"
+
+msgid "gender_male"
+msgstr "Male"
+
+msgid "gender_female"
+msgstr "Female"
+
+# ==============================
+# AI FETCH & STATUS
+# ==============================
+
+msgid "book_title"
+msgstr "Book:"
+
+msgid "characters_count"
+msgstr "Characters:"
+
+msgid "locations_count"
+msgstr "Locations:"
+
+msgid "themes_count"
+msgstr "Themes:"
+
+msgid "events_count"
+msgstr "Events:"
+
+msgid "historical_count"
+msgstr "Historical Figures:"
+
+msgid "cache_age"
+msgstr "Cache age:"
+
+msgid "days_old"
+msgstr "days"
+
+msgid "unlimited_valid"
+msgstr "Valid indefinitely!"
+
+msgid "fetch_new_data"
+msgstr "To fetch new data:\nMenu → X-Ray → Clear Cache"
+
+msgid "no_api_key"
+msgstr "AI API Key not set!\n\nEnter API key in:\nMenu → X-Ray → AI Settings"
+
+msgid "fetching_ai"
+msgstr "Fetching data from AI...\n\n"
+
+msgid "fetching_model"
+msgstr "Model: "
+
+msgid "fetching_wait"
+msgstr "⏳ Please wait...\nThis process may take 10-30 seconds."
+
+msgid "dont_touch"
+msgstr "Do not touch the screen."
+
+msgid "ai_fetch_failed"
+msgstr "Failed to fetch data from AI!\n\nPossible reasons:\n• Invalid API key\n• No internet connection\n• API limit exceeded"
+
+msgid "ai_fetch_complete"
+msgstr ""
+"✅ Successfully fetched from %s!\n"
+"\n"
+"%s\n"
+"Author: %s\n"
+"\n"
+"%d characters\n"
+"%d locations\n"
+"%d themes\n"
+"%d events\n"
+"%d historical figures\n"
+"\n"
+"%s"
+
+# ==============================
+# X-RAY MODE & SEARCH
+# ==============================
+
+msgid "xray_mode_no_data"
+msgstr "Fetch data first for X-Ray Mode!\n\nMenu → X-Ray → Fetch AI Data"
+
+msgid "xray_mode_enabled"
+msgstr "X-Ray Mode Active!\n\nNote: Text selection feature\nis currently disabled.\n\nTo search characters:\nMenu → X-Ray → Characters → Search"
+
+msgid "xray_mode_disabled"
+msgstr "X-Ray Mode Disabled"
+
+msgid "search_character"
+msgstr "Search Character..."
+
+msgid "search_character_title"
+msgstr "Search Character"
+
+msgid "search_hint"
+msgstr "Type name (e.g. Stavrogin)"
+
+msgid "search_button"
+msgstr "Search"
+
+msgid "character_not_found"
+msgstr "Character not found: %s\n\nHint: Type part of the name"
+
+# ==============================
+# TIMELINE & CHAPTER
+# ==============================
+
+msgid "timeline_event"
+msgstr "Event #%d"
+
+msgid "chapter"
+msgstr "Chapter:"
+
+msgid "characters_involved"
+msgstr "Characters:"
+
+msgid "importance"
+msgstr "Importance:"
+
+msgid "analyzing_chapter"
+msgstr "Analyzing chapter...\n\nPlease wait"
+
+msgid "chapter_text_error"
+msgstr "Could not retrieve chapter text"
+
+msgid "no_characters_in_chapter"
+msgstr "No characters found in this chapter.\n\nChapter: %s"
+
+msgid "this_chapter"
+msgstr "This Chapter"
+
+msgid "chapter_chars_title"
+msgstr "Character"
+
+# ==============================
+# CHARACTER NOTES
+# ==============================
+
+msgid "character_notes_title"
+msgstr "Character Notes (%d notes)"
+
+msgid "add_note"
+msgstr "Add note"
+
+msgid "note_saved"
+msgstr "Note saved!\n\n%s"
+
+msgid "note_deleted"
+msgstr "Note deleted!\n\n%s"
+
+msgid "add_note_title"
+msgstr "Add note for %s"
+
+msgid "note_hint"
+msgstr "Your note about the character..."
+
+msgid "save"
+msgstr "Save"
+
+msgid "delete"
+msgstr "Delete"
+
+# ==============================
+# QUICK MENU
+# ==============================
+
+msgid "quick_menu_title"
+msgstr "X-Ray Quick Access"
+
+msgid "fetch_data"
+msgstr "Fetch AI Data"
+
+# ==============================
+# API KEYS
+# ==============================
+
+msgid "gemini_key_title"
+msgstr "Google Gemini API Key"
+
+msgid "gemini_key_hint"
+msgstr "API key"
+
+msgid "gemini_key_desc"
+msgstr "Free API key:\nhttps://makersuite.google.com/app/apikey\n\nOr edit config.lua:\ngemini_api_key = \"AIzaSy...\""
+
+msgid "testing_key"
+msgstr "Testing API key..."
+
+msgid "gemini_key_saved"
+msgstr "Gemini API Key saved!"
+
+msgid "key_test_failed"
+msgstr "API Key saved but test failed!\n\nError: %s\n\nPlease check your API key."
+
+msgid "chatgpt_key_title"
+msgstr "ChatGPT API Key"
+
+msgid "chatgpt_key_hint"
+msgstr "sk-..."
+
+msgid "chatgpt_key_desc"
+msgstr "API key:\nhttps://platform.openai.com/api-keys\n\nOr edit config.lua:\nchatgpt_api_key = \"sk-...\""
+
+msgid "chatgpt_key_saved"
+msgstr "ChatGPT API Key saved!"
+
+# ==============================
+# PROVIDER SELECTION
+# ==============================
+
+msgid "provider_select_title"
+msgstr "Select AI Provider"
+
+msgid "gemini_selected"
+msgstr "Google Gemini selected"
+
+msgid "chatgpt_selected"
+msgstr "ChatGPT selected"
+
+msgid "set_key_first"
+msgstr "Set API key first"
+
+# ==============================
+# EXTRA TITLES
+# ==============================
+
+msgid "summary_title"
+msgstr "Book Summary"
+
+msgid "themes_title"
+msgstr "Book Themes"
+
+msgid "hist_bio"
+msgstr "Biography"
+
+msgid "hist_importance"
+msgstr "Importance in Book"
+
+msgid "hist_context"
+msgstr "Context in Book"
+
+# ==============================
+# ABOUT
+# ==============================
+
+msgid "about_title"
+msgstr "X-Ray Plugin"
+
+msgid "about_text"
+msgstr ""
+"X-Ray Plugin\n"
+"═══════════════════════════════\n"
+"\n"
+"WHAT DOES IT DO?\n"
+"Enhances your books just like Amazon Kindle X-Ray!\n"
+"Uses AI to automatically extract characters, locations,\n"
+"historical context, and more.\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"FEATURES:\n"
+"\n"
+"Smart Menus\n"
+"• Live counters on every menu item\n"
+"• e.g. Characters (12), Locations (8)\n"
+"\n"
+"Multi-Language Support\n"
+"• Turkish and English interface\n"
+"• Language-specific data fetching from AI\n"
+"• Easily add new languages\n"
+"\n"
+"Advanced Historical Analysis\n"
+"• Captures direct references\n"
+"• Detects indirect references\n"
+"• Finds philosophical and intellectual contexts\n"
+"\n"
+"Better Feedback\n"
+"• AI fetch time notifications\n"
+"• Detailed progress messages\n"
+"• Cache status reports\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"ALL FEATURES:\n"
+"\n"
+"AI Integration\n"
+"• Google Gemini support (FREE!)\n"
+"• ChatGPT support\n"
+"• Smart JSON parsing\n"
+"• Error compensation mechanism\n"
+"\n"
+"Character Management\n"
+"• Automatic character extraction\n"
+"• Detailed character profiles\n"
+"• Gender, occupation, role info\n"
+"• Character search feature\n"
+"• Personal note-taking system\n"
+"\n"
+"Chapter Analysis\n"
+"• Show current chapter characters instantly\n"
+"• Character occurrence frequency\n"
+"• Chapter-based filtering\n"
+"\n"
+"Timeline\n"
+"• Chronological list of key events\n"
+"• Event-character association\n"
+"• Spoiler-free descriptions\n"
+"\n"
+"Historical Figures\n"
+"• Detect real historical figures\n"
+"• Biographical information\n"
+"• Context within the book\n"
+"• Birth-death dates\n"
+"\n"
+"Locations\n"
+"• Important locations\n"
+"• Location descriptions\n"
+"• Importance in the story\n"
+"\n"
+"Themes and Summary\n"
+"• List main themes\n"
+"• Spoiler-free summary\n"
+"• Author biography\n"
+"\n"
+"Cache System\n"
+"• Automatic data saving\n"
+"• Indefinitely valid\n"
+"• Offline use\n"
+"• Separate cache per book\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"QUICK START:\n"
+"\n"
+"1. Get API Key\n"
+"Menu → X-Ray → AI Settings\n"
+"→ Google Gemini API Key\n"
+"(Free: makersuite.google.com)\n"
+"\n"
+"2. Fetch Data\n"
+"Menu → X-Ray → Fetch AI Data\n"
+"(Takes 10-15 seconds for the first time)\n"
+"\n"
+"3. Explore!\n"
+"• Characters: See all characters\n"
+"• This Chapter: Characters in the current chapter\n"
+"• Timeline: Follow events\n"
+"• Historical Figures: Real historical figures\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"SHORTCUTS:\n"
+"\n"
+"Alt + X : Quick X-Ray menu\n"
+"Menu → X-Ray : Full menu\n"
+"Long press Menu : Quick menu\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"TIPS:\n"
+"\n"
+"• Cache is created once, used forever\n"
+"• Internet is only needed for the first fetch\n"
+"• Character notes are saved per book\n"
+"• Language change applies immediately\n"
+"• Gemini Flash model is free and fast\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"TECHNICAL INFO:\n"
+"\n"
+"Cache Location:\n"
+"~/.config/koreader/cache/xray/\n"
+"\n"
+"Settings Location:\n"
+"~/.config/koreader/settings/xray/\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"EXAMPLE SCENARIOS:\n"
+"\n"
+"Reading Demons (Dostoevsky):\n"
+"✓ 15+ characters detected automatically\n"
+"✓ Historical figures like Sergei Nechayev added\n"
+"✓ 1860s Russia socialist movement explained\n"
+"✓ First appearances of characters marked\n"
+"\n"
+"Reading War and Peace (Tolstoy):\n"
+"✓ 100+ characters organized\n"
+"✓ Historical figures like Napoleon, Kutuzov\n"
+"✓ Events like Battle of Borodino in timeline\n"
+"✓ Locations like Moscow, Petersburg detailed\n"
+"\n"
+"Reading 1984 (Orwell):\n"
+"✓ Winston, Julia, O'Brien characters\n"
+"✓ Dystopian themes listed\n"
+"• Chapter by chapter character tracking\n"
+"• Analysis with personal notes\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"FAQ:\n"
+"\n"
+"Q: Is the API key free?\n"
+"A: Yes! Gemini API has a free tier.\n"
+"\n"
+"Q: Is internet always required?\n"
+"A: No, only for the first data fetch.\n"
+"\n"
+"Q: Where does the data come from?\n"
+"A: From Google Gemini AI, based on the book title.\n"
+"\n"
+"Q: Does it give spoilers?\n"
+"A: No, AI is trained to avoid spoilers.\n"
+"\n"
+"Q: Which languages are supported?\n"
+"A: Currently Turkish and English. More can be added.\n"
+"\n"
+"Q: How do I clear cache?\n"
+"A: Menu → X-Ray → Clear Cache\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"FEEDBACK:\n"
+"\n"
+"Share your suggestions and bug reports\n"
+"on GitHub!\n"
+"\n"
+"═══════════════════════════════\n"
+"\n"
+"Happy reading!"
+
+# ==============================
+# LANGUAGE SELECTION
+# ==============================
+
+msgid "language_title"
+msgstr "Select Language"
+
+msgid "language_turkish"
+msgstr "Türkçe"
+
+msgid "language_english"
+msgstr "English"
+
+msgid "lang_changed_tr"
+msgstr "Language: Turkish"
+
+msgid "lang_changed_en"
+msgstr "Language: English"
+
+msgid "language_changed"
+msgstr "Language changed: English"
+
+msgid "please_restart"
+msgstr "Please close the book and reopen it\nfor changes to take full effect."
+
+# ==============================
+# PRESERVED FROM ORIGINAL PO (MISSING IN LUA)
+# ==============================
+
+msgid "language_name"
+msgstr "English"
+
+msgid "wifi_required"
+msgstr "Internet connection required!\n\nDo you want to turn on Wi-Fi to fetch AI data?"
+
+msgid "network_offline_prompt"
+msgstr "Internet connection required!\n\nDo you want to turn on Wi-Fi to fetch AI data?"
+
+msgid "turn_on_wifi"
+msgstr "Turn on Wi-Fi"
+
+msgid "fetch_cancelled"
+msgstr "The fetch has been cancelled."
+
+msgid "wifi_connecting"
+msgstr "Connecting to Wi-Fi...\n\nPlease wait."
+
+msgid "wifi_connected"
+msgstr "Connection successful!\n\nFetching AI data..."
+
+msgid "error_503"
+msgstr "Gemini API is overloaded!\n\nThe model is currently receiving too many requests.\n\nPlease try again in a few minutes.\n\nTip: Try a different model in config.lua:\ngemini_model = 'gemini-2.0-flash-exp'"
+
+msgid "error_429"
+msgstr "Too many requests!\n\nYou have reached the API rate limit.\n\nPlease wait a few minutes and try again."
+
+msgid "error_404"
+msgstr "Model not found!\n\nThe selected model does not exist.\n\nChange the model in config.lua:\ngemini_model = 'gemini-2.5-flash'"
+
+msgid "error_400"
+msgstr "Bad request!\n\nCheck your API key or model settings."
+
+msgid "ai_fallback_unnamed_character"
+msgstr "Unnamed Character"
+
+msgid "ai_fallback_no_description"
+msgstr "No description"
+
+msgid "ai_fallback_not_specified"
+msgstr "Not specified"
+
+msgid "ai_fallback_unnamed_location"
+msgstr "Unnamed Location"
+
+msgid "ai_fallback_unnamed_person"
+msgstr "Unnamed Person"
+
+msgid "ai_fallback_no_biography"
+msgstr "No biography"
+
+msgid "ai_fallback_chapter"
+msgstr "Chapter"
+
+msgid "ai_fallback_no_event_description"
+msgstr "No event description"
+
+msgid "ai_fallback_unknown_book"
+msgstr "Unknown Book"
+
+msgid "ai_fallback_unknown_author"
+msgstr "Unknown Author"
+
+msgid "ok"
+msgstr "OK"
+
+msgid "menu_fetch_full"
+msgstr "📚 Fetch AI Data (Full Book)"
+
+msgid "menu_fetch_progress"
+msgstr "📖 Up to Current Page (SPOILER-free)"
+
+msgid "progress_warning_low"
+msgstr "📖 You haven't progressed much yet (%%%d)\n\nContinue anyway?"
+
+msgid "progress_error"
+msgstr "⚠️ Could not get reading progress!\n\nAnalyze full book instead?"
+
+msgid "error_info"
+msgstr "❌ Error Occurred!"
+
+msgid "error_no_network"
+msgstr "📡 No internet connection!\n\nPlease check your Wi-Fi connection."
+
+msgid "error_network_timeout"
+msgstr "⏱️ Connection timed out!\n\nCheck your internet connection and try again."
+
+msgid "error_invalid_api_key"
+msgstr "🔑 Invalid API key!\n\nPlease check your API key."
+
+msgid "error_unknown"
+msgstr "❌ Unknown error!\n\nPlease try again."
+
+msgid "error_filtered"
+msgstr "Content was filtered."
+
+msgid "spoiler_preference_title"
+msgstr "Spoiler Preference"
+
+msgid "spoiler_free_option"
+msgstr "🔒 Spoiler-free Mode (Up to %%%d of the book's)"
+
+msgid "full_book_option"
+msgstr "📖 Full Mode"
+
+msgid "spoiler_free_mode"
+msgstr "🔒 Spoiler-free Mode: %%%d"
+
+msgid "full_book_mode_active"
+msgstr "📖 Full Mode"
