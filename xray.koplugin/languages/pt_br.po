@@ -368,7 +368,7 @@ msgid "testing_key"
 msgstr "Testando chave da API..."
 
 msgid "gemini_key_saved"
-msgstr "Chave da API Gemini salva com sucesso!\n\nTeste concluído!\n\nAgora você pode usar 'Buscar Dados da IA'."
+msgstr "Chave da API Gemini!"
 
 msgid "key_test_failed"
 msgstr "Chave salva, mas o teste falhou!\n\nErro: %s\n\nVerifique sua chave."
