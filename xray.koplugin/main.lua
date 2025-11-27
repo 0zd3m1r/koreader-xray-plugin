@@ -21,12 +21,117 @@ function XRayPlugin:init()
     self.loc = Localization
     self.loc:init() -- Load saved language preference
     
+    self:onDispatcherRegisterActions()
+    
     logger.info("XRayPlugin v1.0.0: Initialized with language:", self.loc:getLanguage())
 end
 
 function XRayPlugin:onReaderReady()
     -- Auto-load cache when book is opened
     self:autoLoadCache()
+end
+
+function XRayPlugin:onDispatcherRegisterActions()
+    
+    local Dispatcher = require("dispatcher")
+    
+    -- X-Ray Quick Menu action
+    Dispatcher:registerAction("xray_quick_menu", {
+        category = "none",
+        event = "ShowXRayQuickMenu",
+        title = self.loc:t("quick_menu_title") or "X-Ray Quick Menu",
+        general = true,
+        separator = true,
+    })
+    
+    -- X-Ray Characters action
+    Dispatcher:registerAction("xray_characters", {
+        category = "none",
+        event = "ShowXRayCharacters",
+        title = self.loc:t("menu_characters") or "Characters",
+        general = true,
+    })
+    
+    -- X-Ray Chapter Characters action
+    Dispatcher:registerAction("xray_chapter_characters", {
+        category = "none",
+        event = "ShowXRayChapterCharacters",
+        title = self.loc:t("menu_chapter_characters") or "Chapter Characters",
+        general = true,
+    })
+    
+    -- X-Ray Timeline action
+    Dispatcher:registerAction("xray_timeline", {
+        category = "none",
+        event = "ShowXRayTimeline",
+        title = self.loc:t("menu_timeline") or "Timeline",
+        general = true,
+    })
+    
+    -- X-Ray Historical Figures action
+    Dispatcher:registerAction("xray_historical", {
+        category = "none",
+        event = "ShowXRayHistorical",
+        title = self.loc:t("menu_historical_figures") or "Historical Figures",
+        general = true,
+    })
+
+    -- X-Ray Themes action
+    Dispatcher:registerAction("xray_themes", {
+        category = "none",
+        event = "ShowXRayThemes",
+        title = self.loc:t("menu_themes") or "Themes",
+        general = true,
+    })    
+    
+    -- X-Ray Locations action
+    Dispatcher:registerAction("xray_locations", {
+        category = "none",
+        event = "ShowXRayLocations",
+        title = self.loc:t("menu_locations") or "Locations",
+        general = true,
+    }) 
+end
+
+-- Event handlers for Dispatcher actions
+function XRayPlugin:onShowXRayQuickMenu()
+    self:showQuickXRayMenu()
+    return true
+end
+
+function XRayPlugin:onShowXRayFullMenu()
+    self:showFullXRayMenu()
+    return true
+end
+
+function XRayPlugin:onShowXRayCharacters()
+    self:showCharacters()
+    return true
+end
+
+function XRayPlugin:onShowXRayChapterCharacters()
+    self:showChapterCharacters()
+    return true
+end
+
+function XRayPlugin:onShowXRayTimeline()
+    self:showTimeline()
+    return true
+end
+
+function XRayPlugin:onShowXRayHistorical()
+    self:showHistoricalFigures()
+    return true
+end
+
+function XRayPlugin:onShowXRayThemes()
+    self:showThemes()
+    return true
+end
+
+function XRayPlugin:onShowXRayLocations()
+    self:showLocations()
+    return true
 end
 
 function XRayPlugin:autoLoadCache()
