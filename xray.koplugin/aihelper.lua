@@ -151,6 +151,50 @@ function AIHelper:loadModelFromFile()
             logger.info("AIHelper: Loaded default provider from file:", provider)
         end
     end
+        -- Gemini API Key
+    local gemini_key_file = DataStorage:getSettingsDir() .. "/xray/gemini_api_key.txt"
+    file = io.open(gemini_key_file, "r")
+    if file then
+        local key = file:read("*a"):match("^%s*(.-)%s*$")
+        file:close()
+        if key and #key > 0 then
+            self.providers.gemini.api_key = key
+            logger.info("AIHelper: Loaded Gemini API key from file")
+        end
+    end
+    
+    -- ChatGPT API Key
+    local chatgpt_key_file = DataStorage:getSettingsDir() .. "/xray/chatgpt_api_key.txt"
+    file = io.open(chatgpt_key_file, "r")
+    if file then
+        local key = file:read("*a"):match("^%s*(.-)%s*$")
+        file:close()
+        if key and #key > 0 then
+            self.providers.chatgpt.api_key = key
+            logger.info("AIHelper: Loaded ChatGPT API key from file")
+        end
+    end
+end
+
+
+-- Save API Key preference to file
+function AIHelper:saveAPIKeyToFile(provider, api_key)
+    local DataStorage = require("datastorage")
+    local settings_dir = DataStorage:getSettingsDir()
+    local xray_dir = settings_dir .. "/xray"
+    local lfs = require("libs/libkoreader-lfs")
+    lfs.mkdir(xray_dir)
+    
+    local key_file = xray_dir .. "/" .. provider .. "_api_key.txt"
+    local file = io.open(key_file, "w")
+    if file then
+        file:write(api_key)
+        file:close()
+        logger.info("AIHelper: Saved", provider, "API key to file")
+        return true
+    end
+    logger.warn("AIHelper: Failed to save", provider, "API key")
+    return false
 end
 
 -- Get book data from AI
@@ -520,9 +564,49 @@ end
 function AIHelper:setAPIKey(provider, api_key)
     if self.providers[provider] then
         self.providers[provider].api_key = api_key:gsub("%s+", "")
+        self:saveAPIKeyToFile(provider, api_key)
         return true
     end
     return false
+end
+
+function AIHelper:testAPIKey(provider)
+    local provider_config = self.providers[provider]
+    
+    if not provider_config then
+        return false, "Unknown provider"
+    end
+    
+    if not provider_config.api_key or #provider_config.api_key == 0 then
+        return false, "AI API Key not set"
+    end
+    
+    if not self:checkNetworkConnectivity() then
+        return false, "No internet connection!"
+    end
+    
+    logger.info("AIHelper: Testing", provider, "API key")
+    
+    local test_prompt = "Test: 'OK'"
+    
+    if provider == "gemini" then
+        local result, error_code, error_msg = self:callGemini(test_prompt, provider_config)
+        if result then
+            return true, "Success"
+        else
+            return false, error_msg or ("Error: " .. (error_code or "Unknown"))
+        end
+        
+    elseif provider == "chatgpt" then
+        local result, error_code, error_msg = self:callChatGPT(test_prompt, provider_config)
+        if result then
+            return true, "Success"
+        else
+            return false, error_msg or ("Error: " .. (error_code or "Unknown"))
+        end
+    end
+    
+    return false, "Unsupported provider"
 end
 
 return AIHelper
