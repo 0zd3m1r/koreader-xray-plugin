@@ -1092,23 +1092,9 @@ function XRayPlugin:setGeminiAPIKey()
                             self.ai_provider = "gemini"
                             
                             UIManager:show(InfoMessage:new{
-                                text = self.loc:t("testing_key"), 
-                                timeout = 2,
-                            })
-                            
-                            local success, message = self.ai_helper:testAPIKey("gemini")
-                            
-                            if success then
-                                UIManager:show(InfoMessage:new{
-                                    text = self.loc:t("gemini_key_saved"), 
-                                    timeout = 5,
-                                })
-                            else
-                                UIManager:show(InfoMessage:new{
-                                    text = string.format(self.loc:t("key_test_failed"), message), 
-                                    timeout = 8,
-                                })
-                            end
+                                text = self.loc:t("gemini_key_saved"), 
+                                timeout = 3,
+                            })                            
                         end
                         UIManager:close(input_dialog)
                     end,
