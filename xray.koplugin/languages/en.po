@@ -416,7 +416,7 @@ msgid "testing_key"
 msgstr "Testing API key..."
 
 msgid "gemini_key_saved"
-msgstr "Gemini API Key saved successfully!\n\nTest passed!\n\nYou can now use 'Fetch AI Data'."
+msgstr "Gemini API Key saved!"
 
 msgid "key_test_failed"
 msgstr "API Key saved but test failed!\n\nError: %s\n\nPlease check your API key."
