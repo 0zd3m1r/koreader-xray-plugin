@@ -17,7 +17,7 @@ function XRayPlugin:init()
     self.ui.menu:registerToMainMenu(self)
     
     -- Load localization module
-    local Localization = require("localization")
+    local Localization = require("localization_xray")
     self.loc = Localization
     self.loc:init() -- Load saved language preference
     
@@ -1960,3 +1960,4 @@ function XRayPlugin:onShowXRayMenu()
 end
 
 return XRayPlugin
+
