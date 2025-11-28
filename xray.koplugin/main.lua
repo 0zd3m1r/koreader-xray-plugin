@@ -504,6 +504,13 @@ function XRayPlugin:showLanguageSelection()
                 callback = function() changeLang("pt_br", "Português") end
             }
         },
+        {
+            {
+                -- Eğer mevcut dil 'por' ise yanına tik koy
+                text = "Español" .. (current_lang == "es" and " ✓" or ""), 
+                callback = function() changeLang("es", "Español") end
+            }
+        },
     }
     
     self.ldlg = ButtonDialog:new{title = "Language / Dil", buttons = buttons}
