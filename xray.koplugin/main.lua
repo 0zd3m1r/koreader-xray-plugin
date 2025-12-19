@@ -446,6 +446,13 @@ function XRayPlugin:addToMainMenu(menu_items)
                     self:showLanguageSelection()
                 end,
             },
+            {
+                text = self.loc:t("menu_xray_language") or "X-Ray Data Language",
+                keep_menu_open = true,
+                callback = function()
+                    self:showXRayLanguageSelection()
+                end,
+            },
             { separator = true },
             {
                 text = self.loc:t("menu_about"),
@@ -464,7 +471,7 @@ function XRayPlugin:showLanguageSelection()
     local ButtonDialog = require("ui/widget/buttondialog")
     local InfoMessage = require("ui/widget/infomessage")
     
-    local current_lang = "tr" -- Varsayılan
+    local current_lang = "en" -- Default
     if self.loc then
         current_lang = self.loc:getLanguage()
     end
@@ -485,36 +492,126 @@ function XRayPlugin:showLanguageSelection()
     local buttons = {
         {
             {
-                -- Eğer mevcut dil 'tr' ise yanına tik koy
-                text = "Türkçe" .. (current_lang == "tr" and " ✓" or ""), 
-                callback = function() changeLang("tr", "Türkçe") end
-            }
-        },
-        {
-            {
-                -- Eğer mevcut dil 'en' ise yanına tik koy
                 text = "English" .. (current_lang == "en" and " ✓" or ""), 
                 callback = function() changeLang("en", "English") end
             }
         },
         {
             {
-                -- Eğer mevcut dil 'por' ise yanına tik koy
+                text = "Русский" .. (current_lang == "ru" and " ✓" or ""), 
+                callback = function() changeLang("ru", "Русский") end
+            }
+        },
+        {
+            {
+                text = "Українська" .. (current_lang == "uk" and " ✓" or ""), 
+                callback = function() changeLang("uk", "Українська") end
+            }
+        },
+        {
+            {
+                text = "Türkçe" .. (current_lang == "tr" and " ✓" or ""), 
+                callback = function() changeLang("tr", "Türkçe") end
+            }
+        },
+        {
+            {
                 text = "Português" .. (current_lang == "pt_br" and " ✓" or ""), 
                 callback = function() changeLang("pt_br", "Português") end
             }
         },
         {
             {
-                -- Eğer mevcut dil 'por' ise yanına tik koy
                 text = "Español" .. (current_lang == "es" and " ✓" or ""), 
                 callback = function() changeLang("es", "Español") end
             }
         },
     }
     
-    self.ldlg = ButtonDialog:new{title = "Language / Dil", buttons = buttons}
+    self.ldlg = ButtonDialog:new{title = "🌐 " .. (self.loc:t("language_title") or "Language"), buttons = buttons}
     UIManager:show(self.ldlg)
+end
+
+function XRayPlugin:showXRayLanguageSelection()
+    local ButtonDialog = require("ui/widget/buttondialog")
+    local InfoMessage = require("ui/widget/infomessage")
+    
+    -- Initialize AI Helper if needed
+    if not self.ai_helper then
+        local AIHelper = require("aihelper")
+        self.ai_helper = AIHelper
+        self.ai_helper:init()
+    end
+    
+    local current_xray_lang = self.ai_helper:getXRayLanguage()
+    
+    local function setXRayLang(lang_code)
+        UIManager:close(self.xldlg)
+        self.ai_helper:saveXRayLanguage(lang_code)
+        
+        local msg = self.loc:t("xray_language_changed") or "X-Ray language changed"
+        UIManager:show(InfoMessage:new{
+            text = "✅ " .. msg,
+            timeout = 3 
+        })
+    end
+    
+    local buttons = {
+        {
+            {
+                text = (self.loc:t("xray_language_auto") or "Auto (book language)") .. (current_xray_lang == "auto" and " ✓" or ""), 
+                callback = function() setXRayLang("auto") end
+            }
+        },
+        {
+            {
+                text = (self.loc:t("xray_language_ui") or "Same as UI language") .. (current_xray_lang == "ui" and " ✓" or ""), 
+                callback = function() setXRayLang("ui") end
+            }
+        },
+        {
+            {
+                text = "English" .. (current_xray_lang == "en" and " ✓" or ""), 
+                callback = function() setXRayLang("en") end
+            }
+        },
+        {
+            {
+                text = "Русский" .. (current_xray_lang == "ru" and " ✓" or ""), 
+                callback = function() setXRayLang("ru") end
+            }
+        },
+        {
+            {
+                text = "Українська" .. (current_xray_lang == "uk" and " ✓" or ""), 
+                callback = function() setXRayLang("uk") end
+            }
+        },
+        {
+            {
+                text = "Türkçe" .. (current_xray_lang == "tr" and " ✓" or ""), 
+                callback = function() setXRayLang("tr") end
+            }
+        },
+        {
+            {
+                text = "Português" .. (current_xray_lang == "pt_br" and " ✓" or ""), 
+                callback = function() setXRayLang("pt_br") end
+            }
+        },
+        {
+            {
+                text = "Español" .. (current_xray_lang == "es" and " ✓" or ""), 
+                callback = function() setXRayLang("es") end
+            }
+        },
+    }
+    
+    self.xldlg = ButtonDialog:new{
+        title = "📖 " .. (self.loc:t("xray_language_title") or "X-Ray Data Language"),
+        buttons = buttons
+    }
+    UIManager:show(self.xldlg)
 end
 
 function XRayPlugin:showCharacters()
@@ -884,7 +981,15 @@ function XRayPlugin:continueWithFetch(reading_percent)
             spoiler_free = reading_percent < 100
         }
         
-        local book_data, error_code, error_msg = self.ai_helper:getBookData(title, author, selected_provider, context)
+        -- Get book language from metadata
+        local book_language = nil
+        local props = self.ui.document:getProps()
+        if props and props.language then
+            book_language = props.language
+            logger.info("XRayPlugin: Book language from metadata:", book_language)
+        end
+        
+        local book_data, error_code, error_msg = self.ai_helper:getBookData(title, author, selected_provider, context, book_language)
         
         if wait_msg then UIManager:close(wait_msg) end
         

@@ -198,7 +198,7 @@ function AIHelper:saveAPIKeyToFile(provider, api_key)
 end
 
 -- Get book data from AI
-function AIHelper:getBookData(title, author, provider_name, context)
+function AIHelper:getBookData(title, author, provider_name, context, book_language)
     self:loadModelFromFile() -- Refresh model
     local provider = provider_name or "gemini"
     local provider_config = self.providers[provider]
@@ -207,8 +207,12 @@ function AIHelper:getBookData(title, author, provider_name, context)
         return nil, "error_no_api_key"
     end
     
-    -- Context ile prompt oluştur
-    local prompt = self:createPrompt(title, author, context)
+    -- Resolve X-Ray language based on settings and book metadata
+    local xray_lang = self:resolveXRayLanguage(book_language)
+    logger.info("AIHelper: X-Ray data language:", xray_lang)
+    
+    -- Create prompt with resolved language
+    local prompt = self:createPrompt(title, author, context, xray_lang)
     
     logger.info("AIHelper: Using provider:", provider, "Model:", provider_config.model)
     if context and context.spoiler_free then
@@ -240,33 +244,142 @@ end
 function AIHelper:loadLanguage()
     local DataStorage = require("datastorage")
     local f = io.open(DataStorage:getSettingsDir() .. "/xray/language.txt", "r")
-    self.current_language = f and f:read("*a"):match("^%s*(.-)%s*$") or "tr"
+    self.current_language = f and f:read("*a"):match("^%s*(.-)%s*$") or "en"
     if f then f:close() end
+    
+    -- Load X-Ray data language setting
+    self:loadXRayLanguage()
     self:loadPrompts()
+end
+
+-- Load X-Ray data language setting
+function AIHelper:loadXRayLanguage()
+    local DataStorage = require("datastorage")
+    local f = io.open(DataStorage:getSettingsDir() .. "/xray/xray_language.txt", "r")
+    if f then
+        local lang = f:read("*a"):match("^%s*(.-)%s*$")
+        f:close()
+        if lang and #lang > 0 then
+            self.xray_language = lang -- "auto", "ui", or specific language code
+            logger.info("AIHelper: Loaded X-Ray language setting:", lang)
+        else
+            self.xray_language = "auto"
+        end
+    else
+        self.xray_language = "auto" -- Default: auto-detect from book
+    end
+end
+
+-- Save X-Ray data language setting
+function AIHelper:saveXRayLanguage(lang_code)
+    local DataStorage = require("datastorage")
+    local settings_dir = DataStorage:getSettingsDir()
+    local xray_dir = settings_dir .. "/xray"
+    local lfs = require("libs/libkoreader-lfs")
+    lfs.mkdir(xray_dir)
+    
+    local lang_file = xray_dir .. "/xray_language.txt"
+    local file = io.open(lang_file, "w")
+    if file then
+        file:write(lang_code)
+        file:close()
+        self.xray_language = lang_code
+        logger.info("AIHelper: Saved X-Ray language setting:", lang_code)
+        return true
+    end
+    return false
+end
+
+-- Get X-Ray language setting
+function AIHelper:getXRayLanguage()
+    return self.xray_language or "auto"
+end
+
+-- Determine actual language for X-Ray data generation
+function AIHelper:resolveXRayLanguage(book_language)
+    local setting = self.xray_language or "auto"
+    
+    if setting == "ui" then
+        -- Use UI language
+        return self.current_language
+    elseif setting == "auto" then
+        -- Try to use book language, fallback to UI language
+        if book_language and #book_language > 0 then
+            -- Normalize book language code (e.g., "en-US" -> "en", "ru-RU" -> "ru")
+            local normalized = book_language:match("^(%a+)") or book_language
+            normalized = normalized:lower()
+            
+            -- Map common language codes
+            local lang_map = {
+                ["en"] = "en", ["eng"] = "en", ["english"] = "en",
+                ["ru"] = "ru", ["rus"] = "ru", ["russian"] = "ru",
+                ["uk"] = "uk", ["ukr"] = "uk", ["ukrainian"] = "uk",
+                ["tr"] = "tr", ["tur"] = "tr", ["turkish"] = "tr",
+                ["es"] = "es", ["spa"] = "es", ["spanish"] = "es",
+                ["pt"] = "pt_br", ["por"] = "pt_br", ["portuguese"] = "pt_br",
+                ["de"] = "de", ["deu"] = "de", ["ger"] = "de", ["german"] = "de",
+                ["fr"] = "fr", ["fra"] = "fr", ["fre"] = "fr", ["french"] = "fr",
+            }
+            
+            local mapped = lang_map[normalized] or normalized
+            
+            -- Check if we have prompts for this language
+            local success, _ = pcall(require, "prompts/" .. mapped)
+            if success then
+                logger.info("AIHelper: Using book language for X-Ray:", mapped)
+                return mapped
+            else
+                logger.info("AIHelper: No prompts for book language", mapped, ", using UI language:", self.current_language)
+                return self.current_language
+            end
+        else
+            logger.info("AIHelper: Book language unknown, using UI language:", self.current_language)
+            return self.current_language
+        end
+    else
+        -- Specific language selected
+        return setting
+    end
 end
 
 -- Load prompts
 function AIHelper:loadPrompts()
     local success, prompts = pcall(require, "prompts/" .. self.current_language)
     if not success then 
-        success, prompts = pcall(require, "prompts/tr") 
+        success, prompts = pcall(require, "prompts/en") 
     end
     self.prompts = prompts or {}
 end
 
+-- Load prompts for specific language
+function AIHelper:loadPromptsForLanguage(lang_code)
+    local success, prompts = pcall(require, "prompts/" .. lang_code)
+    if not success then 
+        success, prompts = pcall(require, "prompts/en") 
+    end
+    return prompts or {}
+end
+
 -- Create prompt
-function AIHelper:createPrompt(title, author, context)
-    if not self.prompts then self:loadLanguage() end
+function AIHelper:createPrompt(title, author, context, target_language)
+    -- Load prompts for target language (may be different from UI language)
+    local prompts
+    if target_language and target_language ~= self.current_language then
+        prompts = self:loadPromptsForLanguage(target_language)
+    else
+        if not self.prompts then self:loadLanguage() end
+        prompts = self.prompts
+    end
     
     -- Context varsa ve spoiler_free modundaysa özel prompt kullan
     if context and context.spoiler_free then
-        local template = self.prompts.spoiler_free or self.prompts.main
+        local template = prompts.spoiler_free or prompts.main
         -- Artık sadece 3 parametre: title, author, percent
-        return string.format(template, title, author or "Bilinmiyor", context.reading_percent)
+        return string.format(template, title, author or "Unknown", context.reading_percent)
     else
         -- Tam kitap için normal prompt
-        local template = self.prompts.main
-        return string.format(template, title, author or "Bilinmiyor")
+        local template = prompts.main
+        return string.format(template, title, author or "Unknown")
     end
 end
 

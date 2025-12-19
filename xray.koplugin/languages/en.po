@@ -63,7 +63,10 @@ msgid "menu_xray_mode"
 msgstr "X-Ray Mode:"
 
 msgid "menu_language"
-msgstr "Language"
+msgstr "Interface Language"
+
+msgid "menu_xray_language"
+msgstr "X-Ray Data Language"
 
 msgid "menu_about"
 msgstr "About"
@@ -683,6 +686,31 @@ msgstr "Language changed: English"
 
 msgid "please_restart"
 msgstr "Please close the book and reopen it\nfor changes to take full effect."
+
+# ==============================
+# X-RAY LANGUAGE SETTINGS
+# ==============================
+
+msgid "xray_language_title"
+msgstr "X-Ray Data Language"
+
+msgid "xray_language_auto"
+msgstr "Auto (book language)"
+
+msgid "xray_language_ui"
+msgstr "Same as UI language"
+
+msgid "xray_language_changed"
+msgstr "X-Ray data language changed"
+
+msgid "xray_language_auto_desc"
+msgstr "AI will generate data in the book's language (from metadata)"
+
+msgid "xray_language_book_detected"
+msgstr "Book language detected: %s"
+
+msgid "xray_language_book_unknown"
+msgstr "Book language unknown, using: %s"
 
 # ==============================
 # PRESERVED FROM ORIGINAL PO (MISSING IN LUA)
