@@ -63,7 +63,10 @@ msgid "menu_xray_mode"
 msgstr "X-Ray Modu:"
 
 msgid "menu_language"
-msgstr "Dil / Language"
+msgstr "Arayüz Dili"
+
+msgid "menu_xray_language"
+msgstr "X-Ray Veri Dili"
 
 msgid "menu_about"
 msgstr "Hakkında"
@@ -683,6 +686,31 @@ msgstr "Dil değiştirildi: Türkçe"
 
 msgid "please_restart"
 msgstr "Değişikliklerin tam olarak uygulanması için\nkitabı kapatıp yeniden açın."
+
+# ==============================
+# X-RAY LANGUAGE SETTINGS
+# ==============================
+
+msgid "xray_language_title"
+msgstr "X-Ray Veri Dili"
+
+msgid "xray_language_auto"
+msgstr "Otomatik (kitap dili)"
+
+msgid "xray_language_ui"
+msgstr "Arayüz diliyle aynı"
+
+msgid "xray_language_changed"
+msgstr "X-Ray veri dili değiştirildi"
+
+msgid "xray_language_auto_desc"
+msgstr "AI, verileri kitabın dilinde (meta verilerden) oluşturacak"
+
+msgid "xray_language_book_detected"
+msgstr "Kitap dili tespit edildi: %s"
+
+msgid "xray_language_book_unknown"
+msgstr "Kitap dili bilinmiyor, kullanılan: %s"
 
 # ==============================
 # PRESERVED FROM ORIGINAL PO (MISSING IN LUA)

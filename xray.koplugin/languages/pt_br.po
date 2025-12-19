@@ -59,7 +59,10 @@ msgid "menu_xray_mode"
 msgstr "Modo X-Ray:"
 
 msgid "menu_language"
-msgstr "Idioma"
+msgstr "Idioma da interface"
+
+msgid "menu_xray_language"
+msgstr "Idioma dos dados X-Ray"
 
 msgid "menu_about"
 msgstr "Sobre"
@@ -445,6 +448,31 @@ msgstr "Idioma alterado: Português"
 
 msgid "please_restart"
 msgstr "Por favor, feche e reabra o livro\npara que as mudanças tenham efeito."
+
+# ==============================
+# X-RAY LANGUAGE SETTINGS
+# ==============================
+
+msgid "xray_language_title"
+msgstr "Idioma dos dados X-Ray"
+
+msgid "xray_language_auto"
+msgstr "Automático (idioma do livro)"
+
+msgid "xray_language_ui"
+msgstr "Igual ao idioma da interface"
+
+msgid "xray_language_changed"
+msgstr "Idioma dos dados X-Ray alterado"
+
+msgid "xray_language_auto_desc"
+msgstr "A IA irá gerar dados no idioma do livro (dos metadados)"
+
+msgid "xray_language_book_detected"
+msgstr "Idioma do livro detectado: %s"
+
+msgid "xray_language_book_unknown"
+msgstr "Idioma do livro desconhecido, usando: %s"
 
 msgid "language_name"
 msgstr "Português (Brasil)"
